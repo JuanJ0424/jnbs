@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
 
   attr_encryptor :credit_card, key: "dfsnkjiq3o4ytcioASDFASDFq345q2c424vbw4"
   attr_encryptor :cvv, key: "jsd9fsd9fASDFgt34St24"
+  attr_encryptor :name, key: "sdfasdfGSDFGsdg44"
+  attr_encryptor :last_name, key: "sdfasdfGSDFGsdg44"
 
   has_many :sales
 
