@@ -43,3 +43,40 @@ group :development, :test do
   gem 'spring'
 end
 
+
+gem 'devise'
+gem 'devise-i18n'
+gem 'figaro', '>= 1.0.0.rc1'
+gem 'high_voltage'
+gem 'mysql2'
+gem 'pundit'
+gem 'slim-rails'
+gem 'upmin-admin'
+
+group :development do
+  gem 'capistrano', '~> 3.0.1'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails', '~> 1.1.0'
+  gem 'capistrano-rails-console'
+  gem 'capistrano-rvm', '~> 0.1.1'
+  gem 'haml2slim'
+  gem 'html2haml'
+  gem 'rails_apps_pages'
+  gem 'rails_apps_testing'
+  gem 'rails_layout'
+  gem 'spring-commands-rspec'
+end
+
+group :development, :test do
+  gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'rspec-rails'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'launchy'
+  gem 'selenium-webdriver'
+end
+
