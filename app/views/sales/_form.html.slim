@@ -1,0 +1,18 @@
+= form_for @sale do |f|
+  - if @sale.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@sale.errors.count, "error")} prohibited this sale from being saved:"
+      ul
+        - @sale.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :total
+    = f.text_field :total
+  .field
+    = f.label :credit_card
+    = f.text_field :credit_card
+  .field
+    = f.label :user
+    = f.text_field :user
+  .actions = f.submit

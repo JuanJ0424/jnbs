@@ -1,0 +1,29 @@
+h1 Listing sale_details
+
+table
+  thead
+    tr
+      th Quantity
+      th Price
+      th Subtotal
+      th Icecream
+      th Sale
+      th
+      th
+      th
+
+  tbody
+    - @sale_details.each do |sale_detail|
+      tr
+        td = sale_detail.quantity
+        td = sale_detail.price
+        td = sale_detail.subtotal
+        td = sale_detail.icecream
+        td = sale_detail.sale
+        td = link_to 'Show', sale_detail
+        td = link_to 'Edit', edit_sale_detail_path(sale_detail)
+        td = link_to 'Destroy', sale_detail, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Sale detail', new_sale_detail_path

@@ -1,0 +1,21 @@
+p#notice = notice
+
+p
+  strong Quantity:
+  = @sale_detail.quantity
+p
+  strong Price:
+  = @sale_detail.price
+p
+  strong Subtotal:
+  = @sale_detail.subtotal
+p
+  strong Icecream:
+  = @sale_detail.icecream
+p
+  strong Sale:
+  = @sale_detail.sale
+
+= link_to 'Edit', edit_sale_detail_path(@sale_detail)
+'|
+= link_to 'Back', sale_details_path
