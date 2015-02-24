@@ -1,0 +1,27 @@
+h1 Listing icecreams
+
+table
+  thead
+    tr
+      th Flavor
+      th Description
+      th Price
+      th Photo
+      th
+      th
+      th
+
+  tbody
+    - @icecreams.each do |icecream|
+      tr
+        td = icecream.flavor
+        td = icecream.description
+        td = icecream.price
+        td = icecream.photo
+        td = link_to 'Show', icecream
+        td = link_to 'Edit', edit_icecream_path(icecream)
+        td = link_to 'Destroy', icecream, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Icecream', new_icecream_path

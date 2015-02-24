@@ -23,6 +23,8 @@ gem 'upmin-admin'
 gem 'bourbon'
 gem 'neat'
 gem 'font-awesome-sass'
+gem 'paperclip'
+gem 'attr_encrypted'
 group :development do
   gem 'capistrano', '~> 3.0.1'
   gem 'capistrano-bundler'

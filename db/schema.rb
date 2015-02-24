@@ -11,7 +11,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224210014) do
+ActiveRecord::Schema.define(version: 20150224220926) do
+
+  create_table "icecreams", force: :cascade do |t|
+    t.string   "flavor",             limit: 255
+    t.text     "description",        limit: 65535
+    t.float    "price",              limit: 24
+    t.string   "photo_file_name",    limit: 255
+    t.string   "photo_content_type", limit: 255
+    t.integer  "photo_file_size",    limit: 4
+    t.datetime "photo_updated_at"
+    t.integer  "stock",              limit: 4
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  create_table "sale_details", force: :cascade do |t|
+    t.integer  "quantity",    limit: 4
+    t.float    "price",       limit: 24
+    t.float    "subtotal",    limit: 24
+    t.integer  "icecream_id", limit: 4
+    t.integer  "sale_id",     limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "sale_details", ["icecream_id"], name: "index_sale_details_on_icecream_id", using: :btree
+  add_index "sale_details", ["sale_id"], name: "index_sale_details_on_sale_id", using: :btree
+
+  create_table "sales", force: :cascade do |t|
+    t.float    "total",                 limit: 24
+    t.string   "encrypted_credit_card", limit: 255
+    t.integer  "user_id",               limit: 4
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "sales", ["user_id"], name: "index_sales_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -26,15 +62,21 @@ ActiveRecord::Schema.define(version: 20150224210014) do
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name",                   limit: 255
+    t.string   "encrypted_name",         limit: 255
     t.string   "confirmation_token",     limit: 255
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email",      limit: 255
     t.integer  "role",                   limit: 4
+    t.string   "encrypted_credit_card",  limit: 255
+    t.integer  "encrypted_cvv",          limit: 4
+    t.string   "encrypted_last_name",    limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "sale_details", "icecreams"
+  add_foreign_key "sale_details", "sales"
+  add_foreign_key "sales", "users"
 end

@@ -1,0 +1,15 @@
+p#notice = notice
+
+p
+  strong Total:
+  = @sale.total
+p
+  strong Credit card:
+  = @sale.credit_card
+p
+  strong User:
+  = @sale.user
+
+= link_to 'Edit', edit_sale_path(@sale)
+'|
+= link_to 'Back', sales_path

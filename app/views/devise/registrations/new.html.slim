@@ -1,0 +1,13 @@
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: :small}) do |f|
+  h2 Registro
+  = devise_error_messages!
+  ul.form-fields
+    / li.field = f.text_field :name, autofocus: true, class: :input, placeholder: 'Nombre'
+    / li.field = f.text_field :last_name, autofocus: true, class: :input, placeholder: 'Apellido'
+    li.field = f.email_field :email, autofocus: true, class: :input, placeholder: 'Email'
+    li.field = f.password_field :password, autocomplete: "off", class: :input, placeholder: 'Contraseña'
+    li.field = f.password_field :password_confirmation, autocomplete: "off", class: :input, placeholder: 'Confirma contraseña'
+    / li.field = f.text_field :credit_card, autocomplete: "off", class: :input, placeholder: 'Tarjeta de crédito'
+    / li.field = f.text_field :cvv, autocomplete: "off", class: :input, placeholder: 'CVV'
+    li.field  = f.submit 'Regístrame', class: 'button expand'
+  small = render "devise/shared/links"

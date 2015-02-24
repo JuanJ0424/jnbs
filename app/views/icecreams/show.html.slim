@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Flavor:
+  = @icecream.flavor
+p
+  strong Description:
+  = @icecream.description
+p
+  strong Price:
+  = @icecream.price
+p
+  strong Photo:
+  = @icecream.photo
+
+= link_to 'Edit', edit_icecream_path(@icecream)
+'|
+= link_to 'Back', icecreams_path
