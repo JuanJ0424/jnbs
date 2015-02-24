@@ -1,0 +1,12 @@
+= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: :small}) do |f|
+  h2 Entrar
+  ul.form-fields
+    li.field = f.email_field :email, autofocus: true, class: :input, placeholder: 'Email'
+    li.field = f.password_field :password, autocomplete: "off", class: :input, placeholder: 'Contraseña'
+    li.field = f.submit "Entrar", class: 'button expand'
+    - if devise_mapping.rememberable?
+      li.field-right
+        = f.label :remember_me, class: 'label-switch right', data: {tooltip:"Recuérdame"} do
+          = f.check_box :remember_me
+          .checkbox
+        small.left = render "devise/shared/links"
