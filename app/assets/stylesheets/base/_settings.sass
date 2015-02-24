@@ -1,0 +1,48 @@
+@import neat-helpers
+
+$small-range: (0em, 40em, 12)        /* 0, 640px */
+$medium-range: (40.063em, 64em, 12)  /* 641px, 1024px */
+$large-range: (64.063em, 90em, 12)   /* 1025px, 1440px */
+$xlarge-range: (90.063em, 120em, 12) /* 1441px, 1920px */
+$xxlarge-range: (120.063em, 12)      /* 1921px */
+
+$small-up: new-breakpoint( min-width lower-bound($small-range) max-width upper-bound($small-range) nth($small-range, 3) )
+$small-only: new-breakpoint( min-width lower-bound($small-range) max-width upper-bound($small-range) nth($small-range, 3) )
+
+$medium-up: new-breakpoint( min-width lower-bound($medium-range) nth($medium-range, 3) )
+$medium-only: new-breakpoint( min-width lower-bound($medium-range) max-width upper-bound($medium-range) nth($medium-range, 3) )
+
+$large-up: new-breakpoint( min-width lower-bound($large-range) nth($large-range, 3) )
+$large-only: new-breakpoint( min-width lower-bound($large-range) max-width upper-bound($large-range) nth($large-range, 3) )
+
+$xlarge-up: new-breakpoint( min-width lower-bound($xlarge-range) nth($xlarge-range, 3) )
+$xlarge-only: new-breakpoint( min-width lower-bound($xlarge-range) max-width upper-bound($xlarge-range) nth($xlarge-range, 3) )
+
+$xxlarge-up: new-breakpoint( min-width lower-bound($xxlarge-range) nth($xxlarge-range, 2) )
+
+$primary-color: #FD6A71
+$accent-color: #295774
+
+$topbar-height: 50px
+
+$swift-out: cubic-bezier(0.55,0,0.1,1)
+
+$base-spacing: 1rem
+
+$headers: h1, h2, h3, h4, h5, h6
+
+// ·· switch
+$switch-width: 52px
+$switch-padding: 2px
+$switch-height: 32px
+$switch-radius: $switch-height
+$knob-size: $switch-height - ($switch-padding * 2)
+$knob-radius: $switch-height - ($switch-padding * 2)
+$knob-width: $knob-size
+$switch-background: darken(#FFF, 5%)
+$switch-c: #FFF
+$switch-border-background: darken(#FFF, 9%)
+$switch-shadow: -3px 3px 0 rgba(#000, 0.1)
+
+
+

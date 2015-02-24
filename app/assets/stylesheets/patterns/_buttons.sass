@@ -1,0 +1,74 @@
+.button
+  +transition(300ms background-color)
+  border: none
+  padding: 1em 2em
+  background-color: $primary-color
+  color: #FFF
+  cursor: pointer
+  text-transform: uppercase
+  letter-spacing: 1px
+  font-size: 0.8em
+  &.expand
+    display: block
+    width: 100%
+    text-align: center
+  &.little
+    padding: 0.5em 1em
+  &.fa
+    padding: 0
+    text-align: center
+  &:hover
+    color: #FFF
+    background-color: shade($primary-color, 10%)
+
+.hover-dropdown
+  position: relative
+  cursor: default
+  &:hover .dropdown
+    @extend .opened
+
+.dropdown
+  +no-bullets
+  +transition(opacity 300ms, transform 300ms $swift-out, visibility 0s 300ms)
+  +transform(translate3d(0px, 10px, 0px))
+  +position(absolute, 100% 0px null null)
+  padding: 1rem
+  width: 250px
+  font-family: $raleway
+  text-transform: none
+  visibility: hidden
+  opacity: 0
+  background-color: $accent-color
+  li
+    width: 100%
+    text-overflow: ellipsis
+    line-height: 1.5
+  li.link
+    text-align: left
+    margin-bottom: 0.5rem
+    line-height: 2.5
+    a
+      display: block
+      color: #FFF
+      padding: 0 5px
+      border-radius: 3px
+      &:hover
+        background-color: rgba(#000, 0.1)
+  li.title
+    font-size: 1.3em
+    white-space: nowrap
+  &.opened
+    +transition-delay(0s)
+    +transform(translate3d(0px, 5px, 0px) scale(1, 1))
+    visibility: visible
+    opacity: 1
+
+
+.multiple-icons
+  overflow: hidden
+  span
+    +position(absolute, 0px 0px 0px 0px)
+    +transition(transform 300ms)
+    margin: auto
+    &.beta
+      +transform(translate3d(0px, -100%, 0px))

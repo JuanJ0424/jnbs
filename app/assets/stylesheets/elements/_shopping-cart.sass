@@ -1,0 +1,132 @@
+.corner-order-checkout-btn
+  +position(absolute, 0px 0px null null)
+  +size($topbar-height)
+  line-height: $topbar-height
+  float: right
+  cursor: pointer
+  z-index: 1
+
+.corner-order-container
+  +user-select(none)
+  +position(fixed, 0px 0px null null)
+  +transition-property(max-width, max-height, z-index)
+  +transition-delay(0s, 0s, 400ms) // delay for 'z-index' so it doesn't appear behind the overlay neither over before the animation
+  +transition-duration(400ms, 400ms, 0s)
+  width: 500px
+  height: 100%
+  max-height: 50px
+  max-width: 50px
+  background-color: $accent-color//$primary-color
+  color: #FFF
+  z-index: 10
+  &.closed:hover
+    max-width: 250px
+  &.opened
+    +transition-delay(0s)
+    max-height: 100%
+    max-width: 500px
+    @media screen and (max-width: 500px)
+      max-width: 100%
+    z-index: 12
+    .corner-order-checkout-btn
+      .alfa
+        +transform(translate3d(0px, 100%, 0px))
+      .beta
+        +transform(translate3d(0px, 0px, 0px))
+    .checkout-summary tr
+      +transform(translate3d(0px,0px,0px))
+      opacity: 1
+    .checkout-btn
+      opacity: 1
+      visibility: visible
+    .checkout-order-display-inner
+      visibility: visible
+
+.checkout-order-display
+  position: relative
+  height: 100%
+  overflow-x: hidden
+  overflow-y: auto
+
+.checkout-order-display-inner
+  visibility: hidden
+  padding: $topbar-height+16 2rem
+
+.total-bar
+  +position(absolute, null null 0px 0px)
+  background-color: $accent-color
+  width: 100%
+  height: $topbar-height
+  padding: 0 2rem
+  overflow: hidden
+
+.total-amount
+  line-height: $topbar-height
+  float: left
+  height: 100%
+
+.checkout-btn
+  +transition(opacity 400ms)
+  opacity: 0
+  visibility: hidden
+  float: right
+
+.checkout-summary
+  tr
+    +transform(translate3d(0px, 100px, 0px))
+    +transition(transform 400ms, opacity 400ms)
+    opacity: 0
+    @for $i from 1 through 30
+      &:nth-child(#{$i})
+        +transition-delay(#{400+$i*25}ms)
+
+.products-container
+  +no-bullets
+
+.product-card-container
+  padding: 0.5rem
+  font-size: 0.8rem
+  width: 25%
+  +media($small-only)
+    width: 100% !important
+  +media($medium-only)
+    width: 50%
+
+.product-card
+  +size(100%)
+  position: relative
+  background-color: #FFF
+  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.05)
+  overflow: hidden
+  .image
+    background-image: linear-gradient(#EAFAFF, #FFF)
+    padding: 1rem
+    text-align: center
+  .caption
+    padding: 1rem
+  .title
+    font-size: 1.3em
+    line-height: 2
+  .description
+    font-size: 1em
+  .footer
+    +clearfix
+    padding: 0.5em 1rem
+    background-color: $accent-color
+    color: #FFF
+  .price
+    font-size: 1.3em
+    font-weight: bold
+    letter-spacing: 1px
+  &.normal img
+    max-height: 200px
+  &.important img
+    max-height: 300px
+
+
+
+
+
+
+
+

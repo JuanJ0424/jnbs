@@ -1,0 +1,46 @@
+.drop-area
+  +position(fixed, 0px 0px null null)
+  +size(700px)
+  +transition(visibility 0s 300ms, transform 300ms linear)
+  +transform(translate3d(50%, -50%, 0px))
+  visibility: hidden
+  margin: -350px -350px 0px 0px
+  background-color: $accent-color
+  color: #FFF
+  border-radius: 50%
+  z-index: 11
+  .leyend
+    position: absolute
+    padding: 0.5rem
+    left: 1rem
+    color: #FFF
+    z-index: 20
+    top: 50%
+    width: 40%
+    font-size: 0.8rem
+  img
+    +transition(transform 300ms linear)
+    width: 270px
+    position: absolute
+    bottom: 25px
+    left: 25px
+  +media($small-only)
+    +size(450px)
+    margin: -225px -225px 0px 0px
+    img
+      width: 170px
+    .leyend
+      font-size: 0.6rem
+
+.dragging .drop-area
+  +transform(translate3d(0px, 0px, 0px))
+  +transition-delay(0s)
+  img
+    +animation(seduce 600ms linear infinite alternate)
+  visibility: visible
+
++keyframes(seduce)
+  from
+    +transform(rotate(35deg))
+  to
+    +transform(rotate(45deg))

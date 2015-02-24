@@ -1,0 +1,30 @@
+.main-topbar
+  +position(fixed, 0px null null 0px)
+  width: 100%
+  height: $topbar-height
+  background-color: $primary-color
+  box-shadow: 0 4px 0px rgba(#000, 0.1)
+  z-index: 10
+  .logo
+    +size($topbar-height)
+    display: block
+    background-image: image-url('logo.png')
+    background-size: $topbar-height
+    margin-left: 1rem
+  .user
+    +position(absolute, 0px $topbar-height null null)
+    +size($topbar-height)
+    line-height: $topbar-height
+
+.simple-topbar
+  +position(absolute, 0px null null 0px)
+  width: 100%
+  height: $topbar-height
+  background-color: #FFF
+  .logo
+    +size($topbar-height)
+    display: block
+    background-image: image-url('logo-color.png')
+    background-size: $topbar-height
+    margin-left: 1rem
+  

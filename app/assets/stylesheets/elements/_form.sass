@@ -1,0 +1,78 @@
+.input
+  +appearance(none)
+  width: 100%
+  padding: 0.7em 0.5em
+  font-size: 1rem
+  border: 1px solid rgba(#000, 0.1)
+  background-color: #FDFDFD
+  box-shadow: -3px 3px 0 rgba(#000, 0.05) inset
+  +transition-property(box-shadow background-color)
+  +transition-duration(200ms)
+  outline: none
+  &:focus
+    background-color: #FFF
+    box-shadow: none
+    outline: none
+
+form.small
+  +wrap(450px)
+
+.form-fields
+  +no-bullets
+
+.field
+  +clearfix
+  margin-bottom: $base-spacing
+
+.right-field
+  +clearfix
+  text-align: right
+  margin-bottom: $base-spacing
+
+input[type="checkbox"]
+  display: none
+
+  + .checkbox
+    +transition(all 0.3s ease)
+    background: $switch-border-background
+    border-radius: $switch-radius
+    border: none
+    cursor: pointer
+    height: $switch-height
+    margin: 0
+    padding: 0
+    position: relative
+    width: $switch-width
+    z-index: 0
+
+    &:before
+      +position(absolute, 2px 0 0 2px)
+      +transform(scale(1))
+      +transition(all 0.3s ease)
+      background: $switch-background
+      border-radius: $switch-radius
+      content: ""
+      height: $knob-radius
+      width: $switch-width - ($switch-padding * 2)
+      z-index: 1
+
+    &:after
+      +position(absolute, 2px 0 0 2px)
+      +transition(all 0.3s ease)
+      +size($knob-size)
+      background: $switch-c
+      border-radius: $knob-radius
+      box-shadow: $switch-shadow
+      content: ""
+      z-index: 2
+
+  &:checked
+    + .checkbox
+      background: $accent-color
+
+      &:before
+        +transform(scale(0))
+
+      &:after
+        left: $switch-width - $knob-width - ($switch-padding)
+

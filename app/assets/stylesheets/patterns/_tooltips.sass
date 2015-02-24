@@ -1,0 +1,20 @@
+[data-tooltip]
+  position: relative
+  &:hover:after
+    +transform(translate(50%, 0px))
+    +transition-delay(0s)
+    visibility: visible
+    opacity: 0.9
+  &:after
+    +position(absolute, null 50% -1.5rem null)
+    +transform(translate(50%, 3px))
+    +transition(transform 300ms $swift-out, opacity 300ms, visibility 0s 300ms)
+    visibility: hidden
+    opacity: 0
+    content: attr(data-tooltip)
+    background-color: darken($accent-color, 15%)
+    color: #FFF
+    font-size: 0.6rem
+    padding: 0 0.5rem
+    border-radius: 999em
+    line-height: 1.5

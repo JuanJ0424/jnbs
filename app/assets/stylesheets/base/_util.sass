@@ -1,0 +1,22 @@
+@function lower-bound($range)
+  @if length($range) <= 0
+    @return 0
+  @return nth($range,1)
+
+@function upper-bound($range) 
+  @if length($range) < 2
+    @return 999999999999
+  @return nth($range, 2)
+
+=no-bullets
+  list-style: none
+  margin: 0
+  padding: 0
+
+=wrap($size: 1000px)
+  width: 100%
+  padding-left: 0.5rem
+  padding-right: 0.5rem
+  max-width: $size
+  margin-left: auto
+  margin-right: auto
