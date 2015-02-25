@@ -15,6 +15,7 @@ class IcecreamsController < ApplicationController
   # GET /icecreams/new
   def new
     @icecream = Icecream.new
+    check_admin
   end
 
   # GET /icecreams/1/edit
@@ -25,7 +26,7 @@ class IcecreamsController < ApplicationController
   # POST /icecreams.json
   def create
     @icecream = Icecream.new(icecream_params)
-
+    check_admin
     respond_to do |format|
       if @icecream.save
         format.html { redirect_to @icecream, notice: 'Icecream was successfully created.' }
@@ -40,6 +41,7 @@ class IcecreamsController < ApplicationController
   # PATCH/PUT /icecreams/1
   # PATCH/PUT /icecreams/1.json
   def update
+    check_admin
     respond_to do |format|
       if @icecream.update(icecream_params)
         format.html { redirect_to @icecream, notice: 'Icecream was successfully updated.' }
@@ -54,6 +56,7 @@ class IcecreamsController < ApplicationController
   # DELETE /icecreams/1
   # DELETE /icecreams/1.json
   def destroy
+    check_admin
     @icecream.destroy
     respond_to do |format|
       format.html { redirect_to icecreams_url, notice: 'Icecream was successfully destroyed.' }
@@ -62,6 +65,9 @@ class IcecreamsController < ApplicationController
   end
 
   private
+    def check_admin
+      authorize @icecream, :can_do?
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_icecream
       @icecream = Icecream.find(params[:id])
