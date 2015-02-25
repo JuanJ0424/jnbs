@@ -15,6 +15,6 @@ class Sale < ActiveRecord::Base
   end
 
   def set_credit_card
-  	self.credit_cad = self.user.credit_cad.number
+  	self.credit_card = self.user.credit_card
   end
 end
