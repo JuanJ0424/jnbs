@@ -12,7 +12,7 @@ div(ng-controller="shopping_cart" ng-init="init()")
       - @icecreams.each do |ic|
         li.product-card-container.important
           article.product-card.radius.important
-            .image = image_tag ic.photo.url(:full), class: 'draggable-icecream'
+            .image = image_tag ic.photo.url(:full), class: 'draggable-icecream', data: {id: "#{ic.id}" }
             .caption
               strong.title = ic.flavor
               .description = ic.description
@@ -74,6 +74,7 @@ javascript:
                 if(typeof(data) == 'object'){
                     console.log(data);
                     $scope.shopping_cart = data;
+                    $scope.calc_total();
                 }else{
                     alert('Error al intentar recuperar los datos.');
                 }
@@ -82,6 +83,12 @@ javascript:
             });
         };
         
+        $scope.calc_total = function(){
+          for(var i = 0; i < $scope.shopping_cart.length; i++){
+            $scope.total += $scope.shopping_cart[i].subtotal;
+          }
+        }
+
         $scope.add_to_cart = function (ic_id){
             $.post("/add", {id: ic_id});
             setTimeout(function(){ $scope.get_cart(); }, 500);

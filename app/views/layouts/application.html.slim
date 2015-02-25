@@ -10,5 +10,7 @@ html(ng-app="jerrynbens")
     = csrf_meta_tags
   body
     .main-container
+      .overlay
+      == render 'elements/dropzone'
       == render 'elements/topbar'
       == yield
