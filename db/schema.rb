@@ -14,69 +14,72 @@
 ActiveRecord::Schema.define(version: 20150225093908) do
 
   create_table "icecreams", force: :cascade do |t|
-    t.string   "flavor"
-    t.text     "description"
-    t.float    "price"
-    t.string   "photo_file_name"
-    t.string   "photo_content_type"
-    t.integer  "photo_file_size"
+    t.string   "flavor",             limit: 255
+    t.text     "description",        limit: 65535
+    t.float    "price",              limit: 24
+    t.string   "photo_file_name",    limit: 255
+    t.string   "photo_content_type", limit: 255
+    t.integer  "photo_file_size",    limit: 4
     t.datetime "photo_updated_at"
-    t.integer  "stock"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.integer  "stock",              limit: 4
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   create_table "sale_details", force: :cascade do |t|
-    t.integer  "quantity"
-    t.float    "price"
-    t.float    "subtotal"
-    t.integer  "icecream_id"
-    t.integer  "sale_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "quantity",    limit: 4
+    t.float    "price",       limit: 24
+    t.float    "subtotal",    limit: 24
+    t.integer  "icecream_id", limit: 4
+    t.integer  "sale_id",     limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "sale_details", ["icecream_id"], name: "index_sale_details_on_icecream_id"
-  add_index "sale_details", ["sale_id"], name: "index_sale_details_on_sale_id"
+  add_index "sale_details", ["icecream_id"], name: "index_sale_details_on_icecream_id", using: :btree
+  add_index "sale_details", ["sale_id"], name: "index_sale_details_on_sale_id", using: :btree
 
   create_table "sales", force: :cascade do |t|
-    t.float    "total"
-    t.string   "encrypted_credit_card"
-    t.integer  "user_id"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-    t.boolean  "state"
+    t.float    "total",                 limit: 24
+    t.string   "encrypted_credit_card", limit: 255
+    t.integer  "user_id",               limit: 4
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "state",                 limit: 1
   end
 
-  add_index "sales", ["user_id"], name: "index_sales_on_user_id"
+  add_index "sales", ["user_id"], name: "index_sales_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "encrypted_name"
-    t.string   "confirmation_token"
+    t.string   "encrypted_name",         limit: 255
+    t.string   "confirmation_token",     limit: 255
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.integer  "role"
-    t.string   "encrypted_credit_card"
-    t.integer  "encrypted_cvv"
-    t.string   "encrypted_last_name"
-    t.string   "username"
+    t.string   "unconfirmed_email",      limit: 255
+    t.integer  "role",                   limit: 4
+    t.string   "encrypted_credit_card",  limit: 255
+    t.integer  "encrypted_cvv",          limit: 4
+    t.string   "encrypted_last_name",    limit: 255
+    t.string   "username",               limit: 255
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["username"], name: "index_users_on_username", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
+  add_foreign_key "sale_details", "icecreams"
+  add_foreign_key "sale_details", "sales"
+  add_foreign_key "sales", "users"
 end

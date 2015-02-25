@@ -1,30 +1,61 @@
-h1 Listing icecreams
+- if current_user.admin?
+  = link_to 'New Icecream', new_icecream_path
 
-table
-  thead
-    tr
-      th Flavor
-      th Description
-      th Price
-      th Photo
-      th
-      th
-      th
+header.products-header
+  br/
+  hr.small/
+  h1.text-center.text-accent Nuestros helados
+  hr.small/
+  br/
+  p.text-center Míralos, escoge el que te agrade y dáselo a la vaca o presiona el botón de 'Al carrito'
+ul.products-container.js-packery data-packery-options='{ "itemSelector": ".product-card-container" }'
+  - @icecreams.each do |ic|
+    li.product-card-container.important
+      article.product-card.radius.important
+        .image = image_tag ic.photo.url(:full), class: 'draggable-icecream'
+        .caption
+          strong.title = ic.flavor
+          .description = ic.description
+        .footer
+          span.price.helvetica = "$#{ic.price}"
+          a.button.round.little.right(ng-click="add_to_cart(#{ic.id})")
+            i.fa.fa-cart-plus
+            |  Al carrito
 
-  tbody
-    - @icecreams.each do |icecream|
-      tr
-        td = icecream.flavor
-        td = icecream.description
-        td = icecream.price
-        td = image_tag icecream.photo(:medium)
-        td = link_to 'Show', icecream
-        td = link_to 'Edit', edit_icecream_path(icecream)
-        td = link_to 'Destroy', icecream, data: {:confirm => 'Are you sure?'}, :method => :delete
+- if @cart
+  .corner-order-container.closed(ng-controller="shopping_cart" ng-init="init()")
+    a.corner-order-checkout-btn.button.fa.multiple-icons#js-corner-checkout
+      span.fa-shopping-cart.alfa
+      span.fa-times.beta
+    .checkout-order-display
+      .checkout-order-display-inner
+        table.checkout-summary.nice-table
+          thead
+            tr
+              th Sabor
+              th Precio
+          tbody
+            tr(ng-repeat="ic in shopping_cart")
+              td
+                | {{ ic.flavor }}({{ ic.quantity }})
+              td
+                | $ {{ ic.subtotal }}
+          tfoot
+            tr
+              th
+              th
+                | Total
+                span.external.helvetica
+                  |  ${{ total }}
+    .total-bar
+      .total-amount.strong-transparent
+        | Total
+        span.external.helvetica
+          |  ${{ total }}
+      a.checkout-btn.button.little.round
+        | Pagar 
+        i.fa.fa-arrow-right
 
-br
-
-= link_to 'New Icecream', new_icecream_path
 javascript:
     $(document).ready(function(){
         var source = new EventSource('http://localhost:2100/listen/#{current_user.id}');

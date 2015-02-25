@@ -11,6 +11,8 @@
         
   get "/current_cart" => 'shopping_cart#get_current_cart'
   get "/finish_sale" => 'shopping_cart#finish_current_sale'
+
+  get '/buy_from_us' => "icecreams#index", as: :user_root
     
   mount Upmin::Engine => '/admin'
   root to: 'visitors#index'

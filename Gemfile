@@ -27,6 +27,7 @@ gem 'font-awesome-sass'
 gem 'paperclip'
 gem 'attr_encrypted'
 gem 'bower-rails', '~> 0.9.2'
+gem 'rack-attack'
 group :development do
   gem 'capistrano', '~> 3.0.1'
   gem 'capistrano-bundler'
