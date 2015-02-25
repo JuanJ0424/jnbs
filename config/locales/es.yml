@@ -1,1 +1,30 @@
 es:
+ activerecord:
+  models:
+   user: Usuario
+   sale: Venta
+   sale_detail: Detalle de venta
+  attributes:
+   user:
+    name: Nombre
+    last_name: Apellido(s)
+    email: Email
+    username: Username
+   icecream:
+    flavor: Sabor
+    description: Descripción
+    price: Precio
+    photo: Foto
+    stock: Stock
+   sale:
+    total: Total
+   sale_detail:
+    quantity: Cantidad
+    price: Precio
+    subtotal: subtotal
+ errors:
+  messages:
+   blank: no puede estar en blanco
+   too_short: tiene menos caracteres de los requeridos
+   too_long: exede los caracteres requeridos
+   invalid: no es válido

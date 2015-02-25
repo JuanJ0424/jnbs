@@ -15,7 +15,18 @@
     outline: none
 
 form.small
-  +wrap(450px)
+  +wrap(500px)
+
+.fieldset
+  position: relative
+  padding: 1rem 0.5rem !important
+  margin-bottom: 1rem !important
+  border: 1px solid #F5F5F5
+  .legend
+    +position(absolute, 0px null null null)
+    margin-top: -0.6em
+    background-color: #FFF
+    font-size: 0.8rem
 
 .form-fields
   +no-bullets

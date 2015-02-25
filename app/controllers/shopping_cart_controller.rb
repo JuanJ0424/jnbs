@@ -5,7 +5,7 @@ class ShoppingCartController < ApplicationController
         icecream = Icecream.find(params[:id])
         if icecream.stock >= 1
             new_sale = false
-            # Create or get User's last sale∑
+            # Create or get User's last sale
 
             if current_sale.nil? #|| current_sale.state
                 current_sale = Sale.new
@@ -42,4 +42,32 @@ class ShoppingCartController < ApplicationController
             redirect_to root_path # No icecreams to add
         end
     end
+    
+    def get_current_cart
+        saleDetails = current_user.sales.last.sale_details
+        
+        render json: @current_sale = saleDetails.to_json
+    end
+    
+    def finish_current_sale        
+        new_sale = Sale.new
+        new_sale.user = current_user
+        if new_sale.save
+            render text: "Done"
+        else
+            render text: "Failed"
+        end
+    end
+    
+    def drop_current_shopping_cart
+        current_sale = current_user.sales.last
+        sale_details = current_sale.sale_details
+        
+        sale_details.each do |_sd|
+            _sd.destroy
+        end
+        
+        render text: "Done"
+    end
+    
 end

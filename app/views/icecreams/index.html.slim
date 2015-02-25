@@ -25,3 +25,11 @@ table
 br
 
 = link_to 'New Icecream', new_icecream_path
+javascript:
+    $(document).ready(function(){
+        var source = new EventSource('http://localhost:2100/listen/#{current_user.id}');
+        source.onmessage = function(event) {
+          console.log(event);
+        };
+    });
+	//$.post("http://localhost:2100/api/message/send", {sent_by: 1, sent_to: 2, message: "jalapeño"});

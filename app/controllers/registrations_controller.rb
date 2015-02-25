@@ -1,6 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
 
-  layout 'signs'
+  layout 'signs', only: :new
   
   # def new
   #   super
