@@ -1,9 +1,10 @@
 doctype html
-html
+html(ng-app="jerrynbens")
   head
     meta content="text/html" charset="UTF-8" http-equiv="Content-Type"
     title Jerry & Ben's
-    = include_gon 
+    = include_gon
+    script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js" 
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags

@@ -69,7 +69,16 @@ class ShoppingCartController < ApplicationController
     end 
     
     def get_current_cart
-        saleDetails = current_user.sales.last.sale_details
+        _saleDetails = current_user.sales.last.sale_details
+        saleDetails = []
+        
+        _saleDetails.each do |sd|
+            template = {:flavor => "", :subtotal => 0, :quantity => 0}
+            template[:flavor] = sd.icecream.flavor
+            template[:quantity] = sd.quantity
+            template[:subtotal] = sd.subtotal
+            saleDetails.push template
+        end
         
         render json: @current_sale = saleDetails.to_json
     end
