@@ -7,7 +7,7 @@ class ShoppingCartController < ApplicationController
             new_sale = false
             # Create or get User's last sale
 
-            if current_sale.nil? #|| current_sale.state
+            if current_sale.nil? || current_sale.state
                 current_sale = Sale.new
                 current_sale.user = current_user
                 #current_sale.set_credit_card
@@ -19,7 +19,7 @@ class ShoppingCartController < ApplicationController
             # If it's not a new sale means that it could has SaleDetails
             if !new_sale
                 puts "\n\n\n It's on da if\n\n\n"
-                sale_detail = current_sale.sale_details.find_by_icecream_id(params[:id])
+                sale_detail = current_sale.sale_details.find_or_create_by(icecream_id: params[:id])
                 sale_detail.quantity = (sale_detail.quantity == 1 ? sale_detail.quantity += 1 : sale_detail.quantity = 1)
                 sale_detail.price = sale_detail.icecream.price
                 sale_detail.subtotal = sale_detail.quantity * sale_detail.price
@@ -43,17 +43,46 @@ class ShoppingCartController < ApplicationController
         end
     end
     
+    def remove_item_from_cart
+        message = {}
+        current_sale = current_user.sales.last
+        sale_detail = current_sale.sale_details.find_by_icecream_id(params[:id])
+        if !sale_detail.nil?
+            if sale_detail.quantity == 1
+                sale_detail.destroy
+            else
+                sale_detail.quantity -= 1
+                sale_detail.subtotal = sale_detail.price * sale_detail.quantity
+                if sale_detail.save
+                    message[:state] = 200 
+                    message[:text] = "Ok, it's done"
+                else
+                    message[:state] = 300
+                    message[:text] = "We couldn't remove your icecream from your shopping cart, you sure you didn't use glue?"
+                end
+            end
+        else
+            message[:state] = 301
+            message[:text] = "dude, you don't even have that icecream in your cart"
+        end
+        render json: message.to_json
+    end 
+    
     def get_current_cart
         saleDetails = current_user.sales.last.sale_details
         
         render json: @current_sale = saleDetails.to_json
     end
     
-    def finish_current_sale        
+    def finish_current_sale   
+        current_sale = current_user.sales.last
+        current_sale.state = true
+        current_sale.save
+        
         new_sale = Sale.new
         new_sale.user = current_user
         if new_sale.save
-            render text: "Done"
+            render text: "Cachin!"
         else
             render text: "Failed"
         end
