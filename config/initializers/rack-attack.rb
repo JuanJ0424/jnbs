@@ -40,7 +40,7 @@ class Rack::Attack
   # Throttle POST requests to /login by IP address
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:logins/ip:#{req.ip}"
-  throttle('logins/ip', :limit => 5, :period => 20.seconds) do |req|
+  throttle('logins/ip', :limit => 50, :period => 5.minutes) do |req|
     if req.path == '/login' && req.post?
       req.ip
     end
@@ -54,7 +54,7 @@ class Rack::Attack
   # throttle logins for another user and force their login requests to be
   # denied, but that's not very common and shouldn't happen to you. (Knock
   # on wood!)
-  throttle("logins/email", :limit => 5, :period => 20.seconds) do |req|
+  throttle("logins/email", :limit => 50, :period => 5.minutes) do |req|
     if req.path == '/users/sign_in' && req.post?
       # return the email if present, nil otherwise
       req.params['username'].presence
@@ -69,9 +69,7 @@ class Rack::Attack
   # If you want to return 503 so that the attacker might be fooled into
   # believing that they've successfully broken your app (or you just want to
   # customize the response), then uncomment these lines.
-  # self.throttled_response = lambda do |env|
-  #  [ 503,  # status
-  #    {},   # headers
-  #    ['']] # body
-  # end
+  self.throttled_response = lambda do |env|
+    [ 429, {}, ['<h1>Ya nos cansaste, reflexiona sobre tus acciones y cuando estes listo pide una disculpa, tal vez te dejemos entrar de nuevo.</h1>']]
+  end
 end
