@@ -17,7 +17,7 @@ table
         td = icecream.flavor
         td = icecream.description
         td = icecream.price
-        td = icecream.photo
+        td = image_tag icecream.photo(:medium)
         td = link_to 'Show', icecream
         td = link_to 'Edit', edit_icecream_path(icecream)
         td = link_to 'Destroy', icecream, data: {:confirm => 'Are you sure?'}, :method => :delete
