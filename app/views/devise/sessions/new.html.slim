@@ -1,7 +1,7 @@
 = form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: :small}) do |f|
   h2 Entrar
   ul.form-fields
-    li.field = f.text_field :username, autofocus: true, class: :input, placeholder: 'Username'
+    li.field = f.text_field :login, autofocus: true, class: :input, placeholder: 'Email o Username'
     li.field = f.password_field :password, autocomplete: "off", class: :input, placeholder: 'Contraseña'
     li.field = f.submit "Entrar", class: 'button expand'
     - if devise_mapping.rememberable?
