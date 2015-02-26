@@ -33,6 +33,7 @@ class SaleDetail < ActiveRecord::Base
         message[:state] = 301
         message[:text] = "dude, you don't even have that icecream in your cart"
     end 
+    current_sale.set_total
     return message
   end
     

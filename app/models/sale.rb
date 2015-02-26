@@ -40,6 +40,7 @@ class Sale < ActiveRecord::Base
       sale_detail.quantity = (sale_detail.quantity == 0 ? 1 : sale_detail.quantity.to_i + 1)
       sale_detail.price = sale_detail.icecream.price
       sale_detail.subtotal = sale_detail.quantity * sale_detail.price
+      self.set_total
     else
       sale_detail = SaleDetail.new
       sale_detail.icecream = icecream
@@ -47,12 +48,13 @@ class Sale < ActiveRecord::Base
       sale_detail.quantity = 1
       sale_detail.sale = current_sale
       sale_detail.subtotal = sale_detail.price
+      current_sale.set_total
     end
     if sale_detail.save
       state = sale_detail.to_json
     else
       state = {type: :error, :description => ":("}.to_json
-    end    
+    end
     return state
   end
     

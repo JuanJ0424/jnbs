@@ -4,9 +4,12 @@ div(ng-controller="shopping_cart" ng-init="init()")
   #dropzone.drop-area(droppable="" drop="handleDrop(data)")
     span.leyend Suelta el helado en las manos de la vaca blanca (precaución, puede comérselo)
     = image_tag 'cow.png' , alt: 'Aquí debería haber una vaca, ¡imagina!'
-  #chat-btn.chat-btn.button.round Envíanos un mensaje
+  - if current_user.id != 1
+    #chat-btn.chat-btn.button.round Envíanos un mensaje
+  - else
+    #chat-btn.chat-btn.button.round Ver mensajes
   #chats.chat
-    -if current_user.id != 1
+    - if current_user.id != 1
       .chatbody
         #chatbody1
         .bottom
@@ -175,7 +178,7 @@ javascript:
           
           if(listening.indexOf(a.sent_by) == -1){
               listening.push(a.sent_by);
-              $("#chats").append('<div class="chatbody"><div  id="chatbody' + a.sent_by + '"></div><div class="bottom"><input id="message_text' + a.sent_by + '" placeholder="Mensaje a ' + a.sent_by_username + '" type="text"><input onclick="send(' + a.sent_by + ')" value="Enviar" type="button"></div></div>');
+              $("#chats").append('<div class="chatbody"><div  id="chatbody' + a.sent_by + '"></div><div class="bottom"><input class="chat-input input" id="message_text' + a.sent_by + '" placeholder="Mensaje a ' + a.sent_by_username + '" type="text"><input onclick="send(' + a.sent_by + ')" value="Enviar" class="fa chat-send-btn button" type="button"></div></div>');
           }
         $("#chatbody"+a.sent_by).append("<b>" + a.role + " " + a.sent_by_username + ":</b> " + a.message + "<br>");
         };

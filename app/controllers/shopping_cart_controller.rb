@@ -50,6 +50,7 @@ class ShoppingCartController < ApplicationController
     
     def finish_current_sale   
         current_sale = current_user.sales.last
+        current_sale.set_total
         current_sale.state = true
         current_sale.save
         

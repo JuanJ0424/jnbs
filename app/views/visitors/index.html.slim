@@ -1,10 +1,11 @@
-h3 Welcome
-p
-  = link_to 'Users:', users_path
-  = User.count
-  |  registered
-  br
-  - if user_signed_in?
-  	= link_to 'Salir', destroy_user_session_path, method: :delete
-  - else
-  	= link_to "Ingresar", new_user_session_path 
+section.welcome-section
+  header.text-center
+    h1 Jerry & Ben's
+    p Ignora que todas nuestras etiquetas que diceb Ben & Jerry's, error de impresión
+    p
+      - if user_signed_in?
+      	= link_to 'Salir', destroy_user_session_path, method: :delete, class: 'button round'
+      - else
+      	= link_to "Ingresar", new_user_session_path, class: 'button round'
+        |      
+        = link_to "Regístrate", new_user_registration_path, class: 'button round'

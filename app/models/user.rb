@@ -43,4 +43,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def get_user_sales
+    sales = []
+    rel_sales = self.sales
+    rel_sales.each do |rs|
+      sales.push rs
+    end
+    sales
+  end
+
 end

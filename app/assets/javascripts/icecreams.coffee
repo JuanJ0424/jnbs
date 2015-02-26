@@ -74,4 +74,7 @@ $(document).on 'ready', ->
     clearInterval slides_interval
     # slides_interval = setInterval moving_slides, 6000
   
+  $('[data-close-btn]').on 'click', () ->
+    $(@).parents('.alert-box').addClass 'go-away'
+  
   

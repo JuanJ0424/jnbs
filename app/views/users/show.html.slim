@@ -1,5 +1,12 @@
-h3 User
-p
-  | Name: #{@user.name if @user.name}
-p
-  | Email: #{@user.email if @user.email}
+.wrapper 
+  h1 Tus compras
+  table.nice-table
+    thead
+      tr
+        th Fecha
+        th Total
+    tbody
+      - @user.get_user_sales.each do |s|
+        tr
+          td = s.created_at
+          td = s.total

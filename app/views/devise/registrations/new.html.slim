@@ -15,4 +15,7 @@
     li.field = f.text_field :cvv, autocomplete: "off", class: :input, placeholder: 'CVV'
   ul.form-fields
     li.field  = f.submit 'Regístrame', class: 'button expand'
-  small = render "devise/shared/links"
+  small
+    == render "devise/shared/links"
+    = link_to "Aviso de privacidad", page_path('about')
+

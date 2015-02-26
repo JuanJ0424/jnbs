@@ -1,0 +1,7 @@
+- flash.each do |name, msg|
+  - if msg.is_a?(String)
+    div[class="alert-box #{name.to_s == 'notice' ? 'success' : 'alert'}" data-alert]
+      .content
+        = msg
+        a.close[href="javascript:void(0)" data-close-btn]
+          i.fa.fa-times
