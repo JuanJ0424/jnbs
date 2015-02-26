@@ -12,4 +12,5 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require packery/dist/packery.pkgd.min
 //= require_tree .

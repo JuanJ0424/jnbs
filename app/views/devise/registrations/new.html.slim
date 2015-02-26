@@ -3,8 +3,8 @@
   = devise_error_messages!
   ul.form-fields.fieldset
     li.legend Usuario
-    li.field = f.text_field :username, class: :input, placeholder: 'Username'
-    li.field = f.email_field :email, autofocus: true, class: :input, placeholder: 'Email'
+    li.field = f.text_field :username, autofocus: true, class: :input, placeholder: 'Username'
+    li.field = f.email_field :email, class: :input, placeholder: 'Email'
     li.field = f.password_field :password, autocomplete: "off", class: :input, placeholder: 'Contraseña'
     li.field = f.password_field :password_confirmation, autocomplete: "off", class: :input, placeholder: 'Confirma contraseña'
   ul.form-fields.fieldset

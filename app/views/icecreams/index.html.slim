@@ -1,105 +1,154 @@
 - if current_user.admin?
   = link_to 'New Icecream', new_icecream_path
 div(ng-controller="shopping_cart" ng-init="init()")
-    #chats
-      -if current_user.id != 1
-        .chatbody
-          #chatbody1
-          .bottom
-            input(id="message_text1" placeholder="Mensaje a admin" type="text")
-            input(onclick="send(1)" value="Enviar" type="button")
-            
-    header.products-header
-      br/
-      hr.small/
-      h1.text-center.text-accent Nuestros helados
-      hr.small/
-      br/
-      p.text-center Míralos, escoge el que te agrade y dáselo a la vaca o presiona el botón de 'Al carrito'
-    ul.products-container.js-packery data-packery-options='{ "itemSelector": ".product-card-container" }'
-      - @icecreams.each do |ic|
-        li.product-card-container.important
-          article.product-card.radius.important
-            .image = image_tag ic.photo.url(:full), class: 'draggable-icecream', data: {id: "#{ic.id}" }
-            .caption
-              strong.title = ic.flavor
-              .description = ic.description
-            .footer
-              span.price.helvetica = "$#{ic.price}"
-              a.button.round.little.right(ng-click="add_to_cart(#{ic.id})")
-                i.fa.fa-cart-plus
-                |  Al carrito
-    ul(ng-repeat="ic in shopping_cart")
-        li
-            | {{ ic.flavor }}
-    - if true
-      .corner-order-container.closed
-        a.corner-order-checkout-btn.button.fa.multiple-icons#js-corner-checkout
-          span.fa-shopping-cart.alfa
-          span.fa-times.beta
-        .checkout-order-display
-          .checkout-order-display-inner
-            table.checkout-summary.nice-table
-              thead
-                tr
-                  th Sabor
-                  th Precio
-              tbody
-                tr(ng-repeat="ic in shopping_cart")
-                  td
-                    | {{ ic.flavor }}({{ ic.quantity }})
-                  td
-                    | $ {{ ic.subtotal }}
-              tfoot
-                tr
-                  th
-                  th
-                    | Total
-                    span.external.helvetica
-                      |  ${{ total }}
-        .total-bar
-          .total-amount.strong-transparent
-            | Total
-            span.external.helvetica
-              |  ${{ total }}
-          a.checkout-btn.button.little.round(ng-click="checkout()")
-            | Pagar 
-            i.fa.fa-arrow-right
+  #dropzone.drop-area(droppable="" drop="handleDrop(data)")
+    span.leyend Suelta el helado en las manos de la vaca blanca (precaución, puede comérselo)
+    = image_tag 'cow.png' , alt: 'Aquí debería haber una vaca, ¡imagina!'
+  #chat-btn.chat-btn.button.round Envíanos un mensaje
+  #chats.chat
+    -if current_user.id != 1
+      .chatbody
+        #chatbody1
+        .bottom
+          input.chat-input.input(id="message_text1" placeholder="Envíanos un mensaje" type="text")
+          input.fa.chat-send-btn.button(onclick="send(1)" value="" type="button")
+          
+  header.products-header
+    br/
+    hr.small/
+    h1.text-center.text-accent Nuestros helados
+    hr.small/
+    br/
+    p.text-center Míralos, escoge el que te agrade y dáselo a la vaca o presiona el botón de 'Al carrito'
+  ul.products-container.js-packery data-packery-options='{ "itemSelector": ".product-card-container" }'
+    - @icecreams.each do |ic|
+      li.product-card-container.important
+        article.product-card.radius.important
+          .image = image_tag ic.photo.url(:full), class: 'draggable-icecream', data: { id: "#{ic.id}" }
+          .caption
+            strong.title = ic.flavor
+            .description = ic.description
+          .footer
+            span.price.helvetica = "$#{ic.price}"
+            a.button.round.little.right(ng-click="add_to_cart(#{ic.id})")
+              i.fa.fa-cart-plus
+              |  Al carrito
+  ul(ng-repeat="ic in shopping_cart")
+      li
+          | {{ ic.flavor }}
+  - if true
+    .corner-order-container.closed
+      a.corner-order-checkout-btn.button.fa.multiple-icons#js-corner-checkout
+        span.fa-shopping-cart.alfa
+        span.fa-times.beta
+      .checkout-order-display
+        .checkout-order-display-inner
+          .text-center(ng-show="total == 0")
+            h3 No hay nada aquí
+            p Dale un helado a la vaca o clickea el botón de 'al carrito' para agregar un helado a tu carrito
+          table.checkout-summary.nice-table(ng-hide="total == 0")
+            thead
+              tr
+                th Sabor
+                th Precio
+            tbody
+              tr(ng-repeat="ic in shopping_cart")
+                td
+                  | {{ ic.flavor }}({{ ic.quantity }})
+                td
+                  | $ {{ ic.subtotal }}
+            tfoot
+              tr
+                th
+                th
+                  | Total
+                  span.external.helvetica
+                    |  ${{ total }}
+      .total-bar
+        .total-amount.strong-transparent
+          | Total
+          span.external.helvetica
+            |  ${{ total }}
+        a.checkout-btn.button.little.round(ng-click="checkout()")
+          | Pagar 
+          i.fa.fa-arrow-right
 
 javascript:
     var aplicacion = angular.module('jerrynbens', []);
+
+    aplicacion.directive('droppable', function() {
+    return {
+        scope: { drop: '&drop' },
+        link: function(scope, element) {
+          // again we need the native object
+          var el = element[0];
+          var drop_handler = scope.drop();
+          el.addEventListener(
+            'dragover',
+            function(e) {
+              e.dataTransfer.dropEffect = 'move';
+              // allows us to drop
+              e.preventDefault();
+              this.classList.add('over');
+              return false;
+            },
+            false
+          );
+          el.addEventListener(
+            'drop',
+            function(e) {
+              // Stops some browsers from redirecting.
+              e.preventDefault();
+
+              this.classList.remove('over');
+
+              var item = e.dataTransfer.getData('Text');
+              
+              scope.drop({data: item});
+
+              return false;
+            },
+            false
+          );
+        }
+      }
+    });
+    
     aplicacion.controller('shopping_cart', function($scope, $http ) {
         $scope.shopping_cart = [];
         $scope.total = 0;
         $scope.init = function(){
-            $scope.get_cart();
+          $scope.get_cart();
         }
         
         $scope.get_cart = function(){
-            $http({
-                method: 'GET', url: '/current_cart'
-            }).success(function(data) {
-                console.log(data);
-                $scope.shopping_cart = data;
-                $scope.calc_total();
-            }).error(function(d) {
-                alert('Error al intentar recuperar los datos.');
-            });
+          $http({
+              method: 'GET', url: '/current_cart'
+          }).success(function(data) {
+              console.log(data);
+              $scope.shopping_cart = data;
+              $scope.calc_total();
+          }).error(function(d) {
+              alert('Error al intentar recuperar los datos.');
+          });
         };
         
         $scope.calc_total = function(){
+          $scope.total = 0;
           for(var i = 0; i < $scope.shopping_cart.length; i++){
             $scope.total += $scope.shopping_cart[i].subtotal;
           }
         }
-
         $scope.add_to_cart = function (ic_id){
-            $.post("/add", {id: ic_id});
-            setTimeout(function(){ $scope.get_cart(); }, 500);
+          $.post("/add", {id: ic_id});
+          setTimeout(function(){ $scope.get_cart(); }, 500);
         }
         $scope.checkout = function (){
-            $.get("/finish_sale");
-            setTimeout(function(){ $scope.get_cart(); }, 500);
+          $.get("/finish_sale");
+          setTimeout(function(){ $scope.get_cart(); }, 500);
+        }
+        $scope.handleDrop = function (id) {
+          $scope.add_to_cart(id);
         }
     });
     $(document).ready(function(){

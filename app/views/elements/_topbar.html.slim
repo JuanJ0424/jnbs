@@ -3,7 +3,7 @@
   span.user.fa.fa-user.button.hover-dropdown
     ul.dropdown
       li.title
-        | Chucho Pérez
+        = current_user.name
         hr.discreet/
       li.link
         = link_to edit_user_registration_path do
