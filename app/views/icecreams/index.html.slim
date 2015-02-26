@@ -13,17 +13,31 @@ div(ng-controller="shopping_cart" ng-init="init()")
           input.chat-input.input(id="message_text1" placeholder="Envíanos un mensaje" type="text")
           input.fa.chat-send-btn.button(onclick="send(1)" value="" type="button")
           
-  header.products-header
-    br/
-    hr.small/
-    h1.text-center.text-accent Nuestros helados
-    hr.small/
-    br/
-    p.text-center Míralos, escoge el que te agrade y dáselo a la vaca o presiona el botón de 'Al carrito'
+  section.slider-icecreams
+    ul#slider.slider
+      li.cherry-garcia-slide
+        .slide-wrapper
+          h1.slide-title Cherry García
+          hr.small
+          .slide-content
+            p Prueba el Cherry García, helado de cereza con cerezas y Fudge Flakes 
+      li.clasics-slide
+        .slide-wrapper
+          h1.slide-title ¿Prefieres los clásicos?
+          hr.small
+          .slide-content
+            p En ese caso prueba nuestro helado de vainilla, sólo tiene vainilla
+      li.rejected-slide
+        .slide-wrapper
+          h1.slide-title ¿Te batearon?
+          hr.small
+          .slide-content
+            p ¿Qué te parece un patético día comiendo helado y viendo una serie completa en netflix?
+      .slider-controls#slider-controls
   ul.products-container.js-packery data-packery-options='{ "itemSelector": ".product-card-container" }'
     - @icecreams.each do |ic|
-      li.product-card-container.important
-        article.product-card.radius.important
+      li.product-card-container
+        article.product-card.radius
           .image = image_tag ic.photo.url(:full), class: 'draggable-icecream', data: { id: "#{ic.id}" }
           .caption
             strong.title = ic.flavor
@@ -54,7 +68,7 @@ div(ng-controller="shopping_cart" ng-init="init()")
             tbody
               tr(ng-repeat="ic in shopping_cart")
                 td
-                  | {{ ic.flavor }}({{ ic.quantity }})
+                  | {{ ic.flavor }} ({{ ic.quantity }})
                 td
                   | $ {{ ic.subtotal }}
             tfoot

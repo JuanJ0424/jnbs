@@ -46,5 +46,32 @@ $(document).on 'ready', ->
     $('#chats').addClass 'show'
     $('.overlay').one 'click', ->
       $('#chats').removeClass 'show'
+
+  # Slider
+  slides = 0
+  actual_slide = 0
+  $('#slider li').each () ->
+    $(@).addClass('actual') if slides == 0
+    $('#slider-controls').append "<div class=\"control-dot #{if slides == 0 then 'actual'}\" data-slide=\"#{slides}\"></div>"
+    slides++
+
+  move_slide_to = (where) ->
+    return false if actual_slide == where
+    $("#slider li:nth(#{ actual_slide })").removeClass('actual').addClass 'out'
+    $("#slider li:nth(#{ where })").removeClass('out').addClass 'actual'
+    $('.control-dot').removeClass 'actual'
+    $(".control-dot:nth(#{ where })").addClass 'actual'
+    actual_slide = where
+
+  moving_slides = ->
+    move_slide_to (actual_slide + 1)%slides
+    return
+
+  slides_interval = setInterval moving_slides, 6000
+
+  $('.control-dot').on 'click', () ->
+    move_slide_to $(@).data 'slide'
+    clearInterval slides_interval
+    # slides_interval = setInterval moving_slides, 6000
   
   

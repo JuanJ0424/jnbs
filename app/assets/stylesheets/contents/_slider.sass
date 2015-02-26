@@ -1,0 +1,134 @@
+// Slider
+
+.slider-icecreams
+  height: 400px
+
+.slider
+  position: relative
+  +inline-list
+  height: 100%
+  white-space: nowrap
+  
+  li
+    visibility: hidden
+    padding-top: $topbar-height+32
+    padding-bottom: 58px
+    +position(absolute, 0px null null 0px)
+    +size(100%)
+    white-space: normal
+    +transition(visibility 0s 1s)
+    text-align: center
+    white-space: nowrap
+    &:before
+      content: ''
+      display: inline-block
+      height: 100%
+      vertical-align: middle
+      margin-right: -0.25em
+    &.actual
+      visibility: visible
+      +transition-delay(0s)
+      +animation(fade-in 1s $swift-out)
+
+      .slide-title
+        visibility: visible
+        +transition-delay(0s)
+        +animation(slide-in 1.1s $swift-out, fade-in 1s $swift-out)
+      .slide-content
+        visibility: visible
+        +transition-delay(1s)
+        +animation(slide-t-top 1.4s 1s $swift-out, fade-in 1s 1s $swift-out)
+    &.out
+      visibility: hidden
+      +animation(fade-out 1s $swift-out)
+      +transition-delay(1s)
+
+      .slide-title
+        visibility: hidden
+        +transition-delay(1s)
+        +animation(slide-out 1.1s $swift-out, fade-out 1s $swift-out)
+      .slide-content
+        visibility: hidden
+        +transition-delay(1s)
+        +animation(slide-out 1.1s 1s $swift-out, fade-out 1s $swift-out)
+
+  .slide-title, .slide-content
+    visibility: hidden
+
+.slider-controls
+  +position(absolute, null 0px 0.5rem 0px)
+  margin: 0 auto
+  font-size: 0px
+  text-align: center
+
+.control-dot
+  display: inline-block
+  +size(0.8rem)
+  margin: 0.5rem
+  border-radius: 50%
+  box-shadow: 0 0 0 3px #FFF inset
+  +transition(box-shadow 300ms)
+  &:hover, &.actual
+    box-shadow: 0 0 0 0.8rem #FFF inset
+    cursor: pointer
+
+.slide-wrapper
+  //+wrap(700px)
+  display: inline-block
+  vertical-align: middle
+  padding: 0 0.5rem
+  width: 100%
+  max-width: 700px
+  color: #FFF
+  white-space: normal
+
+.slide-title
+  text-transform: uppercase
+
+// Slides
+
+.cherry-garcia-slide
+  background-color: #CE6E72
+  +background-image(linear-gradient(rgba(#000, 0.4), rgba(#000, 0.6)), image-url('cherry-garcia-slide.jpg'))
+  background-size: cover
+  background-position: center
+.clasics-slide
+  background-color: #CE6E72
+  +background-image(linear-gradient(rgba(#000, 0.4), rgba(#000, 0.6)), image-url('vanilla-slide.jpg'))
+  background-size: cover
+  background-position: center
+.rejected-slide
+  background-color: #CE6E72
+  +background-image(linear-gradient(rgba(#000, 0.4), rgba(#000, 0.6)), image-url('sad-slide.gif'))
+  background-size: cover
+  background-position: center
+
++keyframes(slide-in)
+  from
+    +transform(translate(50px, 0px))
+  to
+    +transform(translate(0px, 0px))
+
++keyframes(slide-out)
+  from
+    +transform(translate(0, 0px))
+  to
+    +transform(translate(-50px, 0px))
+
++keyframes(fade-in)
+  from
+    opacity: 0
+  to
+    opacity: 1
+
++keyframes(fade-out)
+  from
+    opacity: 1
+  to
+    opacity: 0
+
++keyframes(slide-t-top)
+  from
+    +transform(translate(0px, 16px))
+  to
+    +transform(translate(0px, 0px))
