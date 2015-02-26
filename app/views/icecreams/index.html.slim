@@ -71,7 +71,8 @@ div(ng-controller="shopping_cart" ng-init="init()")
             tbody
               tr(ng-repeat="ic in shopping_cart")
                 td
-                  | {{ ic.flavor }} ({{ ic.quantity }})
+                  a.fa.fa-times.button(ng-click="remove(ic.id)")
+                  |  {{ ic.flavor }} ({{ ic.quantity }})
                 td
                   | $ {{ ic.subtotal }}
             tfoot
@@ -162,6 +163,10 @@ javascript:
         }
         $scope.checkout = function (){
           $.get("/finish_sale");
+          setTimeout(function(){ $scope.get_cart(); }, 500);
+        }
+        $scope.remove = function (id){
+          $.post("/remove", {id: id}).always(function(data){console.log(data)});
           setTimeout(function(){ $scope.get_cart(); }, 500);
         }
         $scope.handleDrop = function (id) {

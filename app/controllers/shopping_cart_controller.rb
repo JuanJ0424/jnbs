@@ -29,6 +29,7 @@ class ShoppingCartController < ApplicationController
             _saleDetails.each do |sd|
                 template = {:flavor => "", :subtotal => 0, :quantity => 0}
                 template[:flavor] = sd.icecream.flavor
+                template[:id] = sd.icecream.id
                 template[:quantity] = sd.quantity
                 template[:subtotal] = sd.subtotal
                 saleDetails.push template
