@@ -112,13 +112,9 @@ javascript:
           
           if(listening.indexOf(a.sent_by) == -1){
               listening.push(a.sent_by);
-              $("#chats").append('<div class="chatbody"><div  id="chatbody' + a.sent_by + '"></div><div class="bottom"><input id="message_text' + a.sent_by + '" placeholder="Mensaje" type="text"><input onclick="send(' + a.sent_by + ')" value="Enviar" type="button"></div></div>');
+              $("#chats").append('<div class="chatbody"><div  id="chatbody' + a.sent_by + '"></div><div class="bottom"><input id="message_text' + a.sent_by + '" placeholder="Mensaje a ' + a.sent_by_username + '" type="text"><input onclick="send(' + a.sent_by + ')" value="Enviar" type="button"></div></div>');
           }
-          if(a.sent_by == 1){
-              $("#chatbody"+a.sent_by).append("<b>Admin:</b> " + a.message + "<br>");
-          }else{
-              $("#chatbody"+a.sent_by).append("<b>User" + a.sent_by + ":</b> " + a.message + "<br>");
-          }
+        $("#chatbody"+a.sent_by).append("<b>" + a.role + " " + a.sent_by_username + ":</b> " + a.message + "<br>");
         };
     });
     function send(id){

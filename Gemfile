@@ -26,6 +26,7 @@ gem 'neat'
 gem 'font-awesome-sass'
 gem 'paperclip'
 gem 'attr_encrypted'
+gem 'rack-cors', :require => 'rack/cors'
 gem 'bower-rails', '~> 0.9.2'
 gem 'rack-attack'
 group :development do

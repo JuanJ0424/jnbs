@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!
-  after_action :verify_authorized
+  before_filter :authenticate_user!, except: [ :fetch_data ]
+  after_action :verify_authorized, except: [ :fetch_data ]
 
   def index
     @users = User.all
@@ -10,6 +10,14 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     authorize @user
+  end
+  
+  def fetch_data
+    template = {username: "", role: ""}
+    u = User.find(params[:id])
+    template[:username] = u.username
+    template[:role] = u.role
+    render json: template
   end
 
   def update

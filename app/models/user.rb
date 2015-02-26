@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true, format: {with: /\A[A-ZÁÉÍÓÚÑ\s]{1}[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,49}\z/}
 
   validates :username, presence: true, uniqueness: {case_sensitive: false},
-            length: { in: 5..20, too_short: "Tiene que tener al menos 5 caracteres", too_long: "Debe tener máximo 20 caracteres" },
+            length: { in: 4..20, too_short: "Tiene que tener al menos 4 caracteres", too_long: "Debe tener máximo 20 caracteres" },
             format: { with: /([A-Za-z0-9\-\_\.]+)/, message: "Username sólo puede contener letras, números, guiones y puntos" }
 
 
