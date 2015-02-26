@@ -1,19 +1,20 @@
 .main-topbar
-  a.logo href="index.html"
-  span.user.fa.fa-user.button.hover-dropdown
-    ul.dropdown
-      li.title
-        = current_user.name
-        hr.discreet/
-      li.link
-        = link_to edit_user_registration_path do
-          i.fa.fa-pencil
-          |  Editar cuenta
-      li.link
-        = link_to root_path do
-          i.fa.fa-history
-          |  Ver compras
-      li
-        = link_to destroy_user_session_path, method: :delete, class: 'button expand little round' do
-          | Salir 
-          i.fa.fa-sign-out
+  =link_to '', root_path, class: 'logo'
+  - if user_signed_in?
+    span.user.fa.fa-user.button.hover-dropdown
+      ul.dropdown
+        li.title
+          = current_user.name
+          hr.discreet/
+        li.link
+          = link_to edit_user_registration_path do
+            i.fa.fa-pencil
+            |  Editar cuenta
+        /li.link
+          = link_to root_path do
+            i.fa.fa-history
+            |  Ver compras
+        li
+          = link_to destroy_user_session_path, method: :delete, class: 'button expand little round' do
+            | Salir 
+            i.fa.fa-sign-out
