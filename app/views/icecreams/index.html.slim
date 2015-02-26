@@ -1,6 +1,14 @@
 - if current_user.admin?
   = link_to 'New Icecream', new_icecream_path
 div(ng-controller="shopping_cart" ng-init="init()")
+    #chats
+      -if current_user.id != 1
+        .chatbody
+          #chatbody1
+          .bottom
+            input(id="message_text1" placeholder="Mensaje a admin" type="text")
+            input(onclick="send(1)" value="Enviar" type="button")
+            
     header.products-header
       br/
       hr.small/
@@ -71,13 +79,9 @@ javascript:
             $http({
                 method: 'GET', url: '/current_cart'
             }).success(function(data) {
-                if(typeof(data) == 'object'){
-                    console.log(data);
-                    $scope.shopping_cart = data;
-                    $scope.calc_total();
-                }else{
-                    alert('Error al intentar recuperar los datos.');
-                }
+                console.log(data);
+                $scope.shopping_cart = data;
+                $scope.calc_total();
             }).error(function(d) {
                 alert('Error al intentar recuperar los datos.');
             });
@@ -100,10 +104,27 @@ javascript:
     });
     $(document).ready(function(){
         var source = new EventSource('http://localhost:2100/listen/#{current_user.id}');
+        var listening = [];
+        listening.push(1);
         source.onmessage = function(event) {
           a =  JSON.parse(event.data);
           console.log(JSON.parse(event.data)); //Incoming message, should raise a notification
-          alert("Incoming message: "+ a.message);
+          
+          if(listening.indexOf(a.sent_by) == -1){
+              listening.push(a.sent_by);
+              $("#chats").append('<div class="chatbody"><div  id="chatbody' + a.sent_by + '"></div><div class="bottom"><input id="message_text' + a.sent_by + '" placeholder="Mensaje" type="text"><input onclick="send(' + a.sent_by + ')" value="Enviar" type="button"></div></div>');
+          }
+          if(a.sent_by == 1){
+              $("#chatbody"+a.sent_by).append("<b>Admin:</b> " + a.message + "<br>");
+          }else{
+              $("#chatbody"+a.sent_by).append("<b>User" + a.sent_by + ":</b> " + a.message + "<br>");
+          }
         };
     });
-	//$.post("http://localhost:2100/api/message/send", {sent_by: 1, sent_to: 2, message: "jalapeño"}); <= Send messages
+    function send(id){
+        var val = $("#message_text" + id).val();
+        $("#message_text" + id).val("");
+        $.post("http://localhost:2100/api/message/send", {sent_to: id, sent_by: #{current_user.id}, message: val}).always(function(data){console.log(data)});
+        $("#chatbody" + id).append("<b>You: </b> " + val + "<br>");
+    }
+	//$.post("http://localhost:2100/api/message/send", {sent_by: 2, sent_to: 1, message: "jalapeñote"}); <= Send messages
