@@ -1,15 +1,19 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!
+  after_action :verify_authorized
 
   # GET /sales
   # GET /sales.json
   def index
+    authorize User
     @sales = Sale.all
   end
 
   # GET /sales/1
   # GET /sales/1.json
   def show
+    authorize @sale
   end
 
   # GET /sales/new
@@ -19,6 +23,7 @@ class SalesController < ApplicationController
 
   # GET /sales/1/edit
   def edit
+    authorize @sale
   end
 
   # POST /sales
@@ -40,6 +45,7 @@ class SalesController < ApplicationController
   # PATCH/PUT /sales/1
   # PATCH/PUT /sales/1.json
   def update
+    authorize @sale
     respond_to do |format|
       if @sale.update(sale_params)
         format.html { redirect_to @sale, notice: 'Sale was successfully updated.' }
@@ -54,6 +60,7 @@ class SalesController < ApplicationController
   # DELETE /sales/1
   # DELETE /sales/1.json
   def destroy
+    authorize @sale
     @sale.destroy
     respond_to do |format|
       format.html { redirect_to sales_url, notice: 'Sale was successfully destroyed.' }

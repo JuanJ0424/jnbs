@@ -8,6 +8,7 @@ class SaleDetail < ActiveRecord::Base
 
   def set_subtotal
   	self.subtotal = self.icecream.price * self.quantity
+    self.save
   end
     
   def remove_item_from_cart current_user, icecream_id

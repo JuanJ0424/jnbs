@@ -1,4 +1,5 @@
 class ShoppingCartController < ApplicationController
+    before_filter :authenticate_user!
     require 'json'
     def add_to_cart
         current_sale = (current_user.sales.last.nil? ? Sale.new : current_user.sales.last)

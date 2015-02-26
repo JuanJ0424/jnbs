@@ -1,7 +1,9 @@
 class Sale < ActiveRecord::Base
   require 'json'
   belongs_to :user
-  has_many :sale_details
+  has_many :sale_details, dependent: :destroy
+
+  attr_encryptor :credit_card, key: "dfsnkjiq3o4ytcioASDFASDFq345q2c424vbw4"
 
   # To set the total you must have a sale already saved,
   # then save its sale_details, an then and only then you may call "set_total"
