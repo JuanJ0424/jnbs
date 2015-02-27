@@ -1,4 +1,6 @@
 	Rails.application.routes.draw do
+  get 'errors/not_found'
+
   resources :sale_details
 
   resources :sales
@@ -20,4 +22,6 @@
   root to: 'visitors#index'
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' }
   resources :users
+
+  get '*a' => 'errors#not_found'
 end

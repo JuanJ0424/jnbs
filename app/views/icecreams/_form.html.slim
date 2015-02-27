@@ -1,21 +1,15 @@
-= form_for @icecream do |f|
+= form_for @icecream, html: {multipart: true} do |f|
   - if @icecream.errors.any?
     #error_explanation
       h2 = "#{pluralize(@icecream.errors.count, "error")} prohibited this icecream from being saved:"
       ul
         - @icecream.errors.full_messages.each do |message|
           li = message
-
-  .field
-    = f.label :flavor
-    = f.text_field :flavor
-  .field
-    = f.label :description
-    = f.text_area :description
-  .field
-    = f.label :price
-    = f.text_field :price
-  .field
-    = f.label :photo
-    = f.text_field :photo
-  .actions = f.submit
+  ul.form-fields
+    li.field = f.text_field :flavor, class: 'input', placeholder: 'Sabor'
+    li.field = f.text_area :description, class: 'input', placeholder: 'Descripción'
+    li.field = f.text_field :price, class: 'input', placeholder: 'Precio'
+    li.field
+      = f.label :photo
+      = f.file_field :photo
+    li.field = f.submit 'Enviar', class: 'button expand'

@@ -5,6 +5,7 @@ section.welcome-section
     p
       - if user_signed_in?
       	= link_to 'Salir', destroy_user_session_path, method: :delete, class: 'button round'
+        = link_to 'Comprar', 'icecreams#index', class: "button round"
       - else
       	= link_to "Ingresar", new_user_session_path, class: 'button round'
         |      
