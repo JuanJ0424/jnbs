@@ -187,6 +187,8 @@ javascript:
         $scope.add_to_cart = function (ic_id){
           $.post("/add", {id: ic_id}, function () {
             $scope.get_cart();
+            $('.corner-order-container').addClass('show-total');
+            setTimeout(function () { $('.corner-order-container').removeClass('show-total'); }, 1100);
           });
           //setTimeout(function(){ $scope.get_cart(); }, 500);
         }
