@@ -1,6 +1,33 @@
-- if current_user.admin?
-  = link_to 'New Icecream', new_icecream_path
 div(ng-controller="shopping_cart" ng-init="init()")
+  .modal.text-center#no-money-modal
+    h3 Registra una tarjeta de crédito
+    p Ve a 'Editar cuenta' en la barra superior en el ícono de usuario y llena los datos de tu tarjeta de crédito para poder pagar, sino, ¿a quién le cobramos? :(
+    br/
+    p = link_to 'Registrar tarjeta', edit_user_registration_path, class: 'button round'
+  .modal.text-center#checkout-modal
+    h3 Pagar
+    table.nice-table
+      thead
+        tr
+          th Sabor
+          th Precio
+      tbody
+        tr(ng-repeat="ic in shopping_cart")
+          td
+            | {{ ic.flavor }} ({{ ic.quantity }})
+          td
+            | $ {{ ic.subtotal }}
+      tfoot
+        tr
+          th
+          th
+            | Total
+            span.external.helvetica
+              |  ${{ total }}
+    p
+      a.button.little.round(ng-click="pay()")
+        | Pagar 
+        i.fa.fa-arrow-right
   #dropzone.drop-area(droppable="" drop="handleDrop(data)")
     span.leyend Suelta el helado en las manos de la vaca blanca (precaución, puede comérselo)
     = image_tag 'cow.png' , alt: 'Aquí debería haber una vaca, ¡imagina!'
@@ -15,7 +42,6 @@ div(ng-controller="shopping_cart" ng-init="init()")
         .bottom
           input.chat-input.input(id="message_text1" placeholder="Envíanos un mensaje" type="text")
           input.fa.chat-send-btn.button(onclick="send(1)" value="" type="button")
-          
   section.slider-icecreams
     ul#slider.slider
       li.cherry-garcia-slide
@@ -37,6 +63,9 @@ div(ng-controller="shopping_cart" ng-init="init()")
           .slide-content
             p ¿Qué te parece un patético día comiendo helado y viendo una serie completa en netflix?
       .slider-controls#slider-controls
+  - if current_user.admin?
+    .text-center.padded
+      = link_to 'New Icecream', new_icecream_path, class: 'button round inline-block'
   ul.products-container.js-packery data-packery-options='{ "itemSelector": ".product-card-container" }'
     - @icecreams.each do |ic|
       li.product-card-container
@@ -68,8 +97,8 @@ div(ng-controller="shopping_cart" ng-init="init()")
             tbody
               tr(ng-repeat="ic in shopping_cart")
                 td
-                  a.fa.fa-times.button(ng-click="remove(ic.id)")
-                  |  {{ ic.flavor }} ({{ ic.quantity }})
+                  a.fa.fa-times.button.round.tiny-padded.separate-next(ng-click="remove(ic.id)")
+                  | {{ ic.flavor }} ({{ ic.quantity }})
                 td
                   | $ {{ ic.subtotal }}
             tfoot
@@ -84,8 +113,8 @@ div(ng-controller="shopping_cart" ng-init="init()")
           | Total
           span.external.helvetica
             |  ${{ total }}
-        a.checkout-btn.button.little.round(ng-click="checkout()")
-          | Pagar 
+        a.checkout-btn.button.little.round(ng-click="checkout()" ng-hide="total == 0")
+          | Checkout 
           i.fa.fa-arrow-right
 
 javascript:
@@ -132,19 +161,20 @@ javascript:
     aplicacion.controller('shopping_cart', function($scope, $http ) {
         $scope.shopping_cart = [];
         $scope.total = 0;
+        $scope.has_credit_card = "#{current_user.has_credit_card?}";
         $scope.init = function(){
           $scope.get_cart();
         }
         
         $scope.get_cart = function(){
           $http({
-              method: 'GET', url: '/current_cart'
+            method: 'GET', url: '/current_cart'
           }).success(function(data) {
-              console.log(data);
-              $scope.shopping_cart = data;
-              $scope.calc_total();
+            console.log(data);
+            $scope.shopping_cart = data;
+            $scope.calc_total();
           }).error(function(d) {
-              alert('Error al intentar recuperar los datos.');
+            alert('Error al intentar recuperar los datos, por favor verifica tu conexión a internet');
           });
         };
         
@@ -155,16 +185,35 @@ javascript:
           }
         }
         $scope.add_to_cart = function (ic_id){
-          $.post("/add", {id: ic_id});
-          setTimeout(function(){ $scope.get_cart(); }, 500);
+          $.post("/add", {id: ic_id}, function () {
+            $scope.get_cart();
+          });
+          //setTimeout(function(){ $scope.get_cart(); }, 500);
+        }
+        $scope.pay = function (){
+          $.get("/finish_sale", function () {
+            $('html').removeClass('super-overlayed');
+            $("#checkout-modal").removeClass('in');
+            $scope.get_cart();
+          });
+          //setTimeout(function(){ $scope.get_cart(); }, 500);
+        }
+        $scope.show_modal = function (which) {
+          $('html').addClass('super-overlayed');
+          $(which).addClass("in");
+          $('.super-overlay').one('click', function () {
+            $(which).removeClass('in');
+          });
         }
         $scope.checkout = function (){
-          $.get("/finish_sale");
-          setTimeout(function(){ $scope.get_cart(); }, 500);
+          if ($scope.has_credit_card == "true") { $scope.show_modal("#checkout-modal"); }
+          else { $scope.show_modal("#no-money-modal"); }
         }
         $scope.remove = function (id){
-          $.post("/remove", {id: id}).always(function(data){console.log(data)});
-          setTimeout(function(){ $scope.get_cart(); }, 500);
+          $.post("/remove", {id: id}, function () {
+            $scope.get_cart();
+          });
+          //setTimeout(function(){ $scope.get_cart(); }, 500);
         }
         $scope.handleDrop = function (id) {
           $scope.add_to_cart(id);

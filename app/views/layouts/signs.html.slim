@@ -9,6 +9,6 @@ html
   body
     .main-container
       .simple-topbar
-        a.logo
+        = link_to '', root_path, class: 'logo'
       == yield
       == render 'elements/messages'

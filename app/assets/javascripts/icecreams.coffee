@@ -12,6 +12,9 @@ $(document).on 'ready', ->
 
   $('.overlay').on 'click', ->
     $('html').removeClass 'overlayed'
+  
+  $('.super-overlay').on 'click', ->
+    $('html').removeClass 'super-overlayed'
 
   $('.draggable-icecream').on 'dragstart', (e) ->
     i = $(this).data('id')
