@@ -194,6 +194,8 @@ javascript:
             if (daten.type == "error" ){
               alert( daten.description);
             }
+            $('.corner-order-container').addClass('show-total');
+            setTimeout(function () { $('.corner-order-container').removeClass('show-total'); }, 1100);
           });
           //setTimeout(function(){ $scope.get_cart(); }, 500);
         }
