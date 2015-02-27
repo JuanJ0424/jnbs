@@ -3,7 +3,7 @@ div(ng-controller = "messagesController" ng-init="init()" class="wrapper")
         div(ng-repeat="c in contacts")
             p( ng-click="get_messages(c.id)" )
                 | {{c.username}}
-    .right
+    .right#messages
         div(ng-repeat="m in messages" class="rigth")
             p
                 | {{m.username}}: {{m.message}}
@@ -11,19 +11,24 @@ div(ng-controller = "messagesController" ng-init="init()" class="wrapper")
         input(type="text" id="messagesField" placeholder="Tu mensaje" class="input")
         input(type="button" ng-click="send()" value="Enviar" class="button expand")
 javascript:
+    var current = 0;
     var aplicacion = angular.module('jerrynbens', []);
     var server = "http://localhost:2100/"
     aplicacion.controller('messagesController', function($scope, $http ) {
         $scope.contacts = [];
         $scope.messages = [];
-        $scope.current = 0;
         $scope.init = function(){
           $scope.get_contacts();
         }
         
         $scope.send = function(){
-            if(!$("#messagesField").val() == "" && $scope.current != 0){
-                $.post(server + "api/message/send", {sent_by: #{current_user}, sent_to: $scope.current, message: $("#messagesField").val()});
+            if(!$("#messagesField").val() == "" && current != 0){
+                $.post(server + "api/message/send", {sent_by: #{current_user.id}, sent_to: current, message: $("#messagesField").val()}).done(
+                function(data){
+                    console.log(data);
+                    $("#messages").append("<p>You: "+$("#messagesField").val()+"</p>");
+                    $("#messagesField").val("");
+                });
             }
         }
         $scope.get_contacts = function(){
@@ -44,9 +49,22 @@ javascript:
             }).success(function(data) {
                 console.log(data);
                 $scope.messages = data;
+                current = id;
             }).error(function(d) {
                 alert('Error al intentar recuperar los datos, por favor verifica tu conexión a internet - 2');
             });
         }
         
+    });
+    $(document).ready(function(){
+        var source = new EventSource(server + 'listen/#{current_user.id}');
+        source.onmessage = function(event) {
+          a =  JSON.parse(event.data);
+          console.log(JSON.parse(event.data)); //Incoming message, should raise a notification
+          if( a.sent_by == current){
+              $("#messages").append("<p>"+a.sent_by_username+": "+a.message+"</p>");
+          }else{
+                alert("Usted tiene un nuevo mensaje de " + a.sent_by_username);
+            }    
+        }
     });
