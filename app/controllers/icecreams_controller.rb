@@ -7,6 +7,7 @@ class IcecreamsController < ApplicationController
   def index
     @icecreams = Icecream.all
     gon.id = current_user.id
+    
   end
 
   # GET /icecreams/1

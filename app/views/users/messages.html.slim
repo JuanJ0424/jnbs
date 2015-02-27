@@ -1,0 +1,52 @@
+div(ng-controller = "messagesController" ng-init="init()" class="wrapper")
+    .left
+        div(ng-repeat="c in contacts")
+            p( ng-click="get_messages(c.id)" )
+                | {{c.username}}
+    .right
+        div(ng-repeat="m in messages" class="rigth")
+            p
+                | {{m.username}}: {{m.message}}
+    .small
+        input(type="text" id="messagesField" placeholder="Tu mensaje" class="input")
+        input(type="button" ng-click="send()" value="Enviar" class="button expand")
+javascript:
+    var aplicacion = angular.module('jerrynbens', []);
+    var server = "http://localhost:2100/"
+    aplicacion.controller('messagesController', function($scope, $http ) {
+        $scope.contacts = [];
+        $scope.messages = [];
+        $scope.current = 0;
+        $scope.init = function(){
+          $scope.get_contacts();
+        }
+        
+        $scope.send = function(){
+            if(!$("#messagesField").val() == "" && $scope.current != 0){
+                $.post(server + "api/message/send", {sent_by: #{current_user}, sent_to: $scope.current, message: $("#messagesField").val()});
+            }
+        }
+        $scope.get_contacts = function(){
+          $http({
+            method: 'GET', url: server + '/api/get/#{current_user.id}/talked_with'
+          }).success(function(data) {
+            console.log(data);
+            $scope.contacts = data;
+          }).error(function(d) {
+            alert('Error al intentar recuperar los datos, por favor verifica tu conexión a internet - 1');
+          });
+        }
+        
+        $scope.get_messages = function(id){
+            $scope.messages = [];
+            $http({
+                method: 'GET', url: server + '/api/get/messages/'+id+'/#{current_user.id}'
+            }).success(function(data) {
+                console.log(data);
+                $scope.messages = data;
+            }).error(function(d) {
+                alert('Error al intentar recuperar los datos, por favor verifica tu conexión a internet - 2');
+            });
+        }
+        
+    });

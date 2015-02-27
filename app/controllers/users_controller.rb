@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, except: [ :fetch_data ]
-  after_action :verify_authorized, except: [ :fetch_data ]
+  after_action :verify_authorized, except: [ :fetch_data, :messages ]
 
   def index
     @users = User.all
@@ -13,9 +13,10 @@ class UsersController < ApplicationController
   end
   
   def fetch_data
-    template = {username: "", role: ""}
+    template = {username: "", role: "", id: 0}
     u = User.find(params[:id])
     template[:username] = u.username
+    template[:id] = u.id
     template[:role] = u.role
     render json: template
   end
@@ -36,6 +37,11 @@ class UsersController < ApplicationController
     user.destroy
     redirect_to users_path, :notice => "User deleted."
   end
+    
+  def messages
+    @user = current_user
+    
+  end
 
   private
 
@@ -43,4 +49,5 @@ class UsersController < ApplicationController
     params.require(:user).permit(:role)
   end
 
+  
 end
