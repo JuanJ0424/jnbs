@@ -171,10 +171,11 @@ javascript:
         }
     });
     var server = "http://localhost:2100/"
+    var listening = [];
     $(document).ready(function(){
         var source = new EventSource(server + 'listen/#{current_user.id}');
-        var listening = [];
-        listening.push(1);
+        
+        listening.push("1");
         source.onmessage = function(event) {
           a =  JSON.parse(event.data);
           console.log(JSON.parse(event.data)); //Incoming message, should raise a notification
