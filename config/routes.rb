@@ -18,6 +18,8 @@
   
   get '/messages' => "users#messages", as: :messages
   get '/api/public/u/:id' => 'users#fetch_data'
+
+  get '/legal/privacy' => 'visitors#privacy', as: :privacy
         
   mount Upmin::Engine => '/admin'
   root to: 'visitors#index'
