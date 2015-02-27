@@ -66,6 +66,36 @@ class IcecreamsController < ApplicationController
       format.json { head :no_content }
     end
   end
+    
+  def get_top_sellers
+      saled = SaleDetail.all.order(quantity: :desc)
+      
+      data_array, icecreams = [], []
+      
+      saled.each do |sd|
+          ic_data = {icecream: Icecream.new, quantity: 0}
+          if !icecreams.include? sd.icecream_id
+              icecreams.push sd.icecream_id
+              ic_data[:icecream] = sd.icecream
+              ic_data[:quantity] = sd.quantity
+              data_array.push ic_data
+          else
+              data_array[icecreams.index(sd.icecream_id)][:quantity] += sd.quantity      
+          end
+      end
+      swapped = true
+      while swapped do
+        swapped = false
+        0.upto(data_array.size-2) do |i|
+          if data_array[i][:quantity] < data_array[i+1][:quantity]
+            data_array[i], data_array[i+1] = data_array[i+1], data_array[i] # swap values
+            swapped = true
+          end
+        end    
+      end
+    #return data_array
+    render json: data_array
+  end
 
   private
     def check_admin

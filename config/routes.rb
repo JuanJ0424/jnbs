@@ -19,6 +19,8 @@
   get '/messages' => "users#messages"
   get '/api/public/u/:id' => 'users#fetch_data'
         
+  get '/top_sellers' => 'icecreams#get_top_sellers'
+        
   mount Upmin::Engine => '/admin'
   root to: 'visitors#index'
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' }
