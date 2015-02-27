@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, except: [ :fetch_data ]
-  after_action :verify_authorized, except: [ :fetch_data, :messages ]
+  after_action :verify_authorized, except: [ :fetch_data ]
 
   def index
     @users = User.all
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     
   def messages
     @user = current_user
-    
+    authorize @user
   end
 
   private

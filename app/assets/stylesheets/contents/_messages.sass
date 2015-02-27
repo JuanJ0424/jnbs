@@ -1,0 +1,24 @@
+.messages-container
+  position: relative
+  height: 400px
+  ul
+    +no-bullets
+  .contacts-list
+    +position(absolute, 0px null null 0px)
+    width: 150px
+    height: 100%
+    padding: 1rem
+    overflow-y: auto
+    background-color: $accent-color
+    color: #FFF
+    a
+      color: rgba(#FFF, 0.6)
+      cursor: pointer
+      &:hover
+        color: #FFF
+  .messages
+    padding-left: 150px
+    height: 100%
+    overflow-y: auto
+  .message
+    padding: 1rem

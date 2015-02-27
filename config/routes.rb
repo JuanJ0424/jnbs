@@ -16,7 +16,7 @@
 
   get '/buy_from_us' => "icecreams#index", as: :user_root
   
-  get '/messages' => "users#messages"
+  get '/messages' => "users#messages", as: :messages
   get '/api/public/u/:id' => 'users#fetch_data'
         
   mount Upmin::Engine => '/admin'

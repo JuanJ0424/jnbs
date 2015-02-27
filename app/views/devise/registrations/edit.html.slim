@@ -8,13 +8,15 @@
         | Currently waiting confirmation for: #{resource.unconfirmed_email}
     li.field = f.password_field :password, autocomplete: "off", class: :input, placeholder: 'Nueva contraseña (en blanco si no quieres cambiarla)'
     li.field = f.password_field :password_confirmation, autocomplete: "off", class: :input, placeholder: 'Confirma nueva contraseña'
-    li.field = f.password_field :current_password, autocomplete: "off", class: :input, placeholder: 'Contraseña actual'
   ul.form-fields.fieldset
     li.legend Tarjeta
     li.field = f.text_field :name, autofocus: true, class: :input, placeholder: 'Nombre'
     li.field = f.text_field :last_name, class: :input, placeholder: 'Apellido'
     li.field = f.text_field :credit_card, class: :input, placeholder: 'Tarjeta de crédito'
     li.field = f.text_field :cvv, autocomplete: "off", class: :input, placeholder: 'CVV'
+  ul.form-fields.fieldset
+    li.legend Confirma los cambios
+    li.field = f.password_field :current_password, autocomplete: "off", class: :input, placeholder: 'Contraseña actual'
   ul.form-fields
     li.field = f.submit "Update", class: 'button expand'
   hr

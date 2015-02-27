@@ -77,6 +77,6 @@ class IcecreamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def icecream_params
-      params.require(:icecream).permit(:flavor, :description, :price, :photo)
+      params.require(:icecream).permit(:flavor, :description, :price, :photo, :stock)
     end
 end

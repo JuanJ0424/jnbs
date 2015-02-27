@@ -23,4 +23,8 @@ class UserPolicy
     @current_user.admin?
   end
 
+  def messages?
+    @current_user.admin?
+  end
+
 end

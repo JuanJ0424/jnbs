@@ -34,7 +34,7 @@ div(ng-controller="shopping_cart" ng-init="init()")
   - if current_user.id != 1
     #chat-btn.chat-btn.button.round Envíanos un mensaje
   - else
-    #chat-btn.chat-btn.button.round Ver mensajes
+    = link_to 'Ver mensajes', messages_path, class: 'chat-btn button round'
   #chats.chat
     - if current_user.id != 1
       .chatbody

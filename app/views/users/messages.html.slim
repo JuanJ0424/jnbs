@@ -1,29 +1,43 @@
-div(ng-controller = "messagesController" ng-init="init()" class="wrapper")
-    .left
-        div(ng-repeat="c in contacts")
-            p( ng-click="get_messages(c.id)" )
-                | {{c.username}}
-    .right
-        div(ng-repeat="m in messages" class="rigth")
-            p
-                | {{m.username}}: {{m.message}}
-    .small
-        input(type="text" id="messagesField" placeholder="Tu mensaje" class="input")
-        input(type="button" ng-click="send()" value="Enviar" class="button expand")
+.wrapper(ng-controller = "messagesController" ng-init="init()")
+    br/
+    br/
+    .messages-container
+        ul.contacts-list
+            li.contact(ng-repeat="c in contacts")
+                a.uppercase.strong(ng-click="get_messages(c.id)")
+                    | {{c.username}}
+        ul#messages.messages
+            li.message(ng-repeat="m in messages" class="rigth")
+                span.uppercase.strong
+                    | {{m.username}}
+                |  {{m.message}}
+    br/
+    ul.form-fields
+        li.field
+            input(type="text" id="messagesField" placeholder="Tu mensaje" class="input")
+        li.field
+            a(ng-click="send()" class="button expand")
+                i.fa.fa-paper-plane
+                |  Enviar
 javascript:
+    var current = 0;
     var aplicacion = angular.module('jerrynbens', []);
-    var server = "http://localhost:2100/"
+    var server = "http://jnbschat-199929.use1-2.nitrousbox.com"
     aplicacion.controller('messagesController', function($scope, $http ) {
         $scope.contacts = [];
         $scope.messages = [];
-        $scope.current = 0;
         $scope.init = function(){
           $scope.get_contacts();
         }
         
         $scope.send = function(){
-            if(!$("#messagesField").val() == "" && $scope.current != 0){
-                $.post(server + "api/message/send", {sent_by: #{current_user}, sent_to: $scope.current, message: $("#messagesField").val()});
+            if(!$("#messagesField").val() == "" && current != 0){
+                $.post(server + "/api/message/send", {sent_by: #{current_user.id}, sent_to: current, message: $("#messagesField").val()}).done(
+                function(data){
+                    console.log(data);
+                    $("#messages").append("<li class='message rigth'><span class='uppercase strong'>You</span> "+$("#messagesField").val()+"</li>");
+                    $("#messagesField").val("");
+                });
             }
         }
         $scope.get_contacts = function(){
@@ -33,7 +47,7 @@ javascript:
             console.log(data);
             $scope.contacts = data;
           }).error(function(d) {
-            alert('Error al intentar recuperar los datos, por favor verifica tu conexión a internet - 1');
+            console.log('Error al intentar recuperar los datos, por favor verifica tu conexión a internet - 1');
           });
         }
         
@@ -44,9 +58,22 @@ javascript:
             }).success(function(data) {
                 console.log(data);
                 $scope.messages = data;
+                current = id;
             }).error(function(d) {
-                alert('Error al intentar recuperar los datos, por favor verifica tu conexión a internet - 2');
+                console.log('Error al intentar recuperar los datos, por favor verifica tu conexión a internet - 2');
             });
         }
         
+    });
+    $(document).ready(function(){
+        var source = new EventSource(server + '/listen/#{current_user.id}');
+        source.onmessage = function(event) {
+            a =  JSON.parse(event.data);
+            console.log(JSON.parse(event.data)); //Incoming message, should raise a notification
+            if( a.sent_by == current){
+                $("#messages").append("<li class='message rigth'><span class='uppercase strong'>"+a.sent_by_username+"</span> "+a.message+"</li>");
+            } else {
+                console.log("Usted tiene un nuevo mensaje de " + a.sent_by_username);
+            }
+        }
     });
