@@ -69,3 +69,17 @@ img
   visibility: visible
   opacity: 1
   +transition-delay(0s)
+
+
+.super-overlay
+  +position(absolute, 0px 0px 0px 0px)
+  visibility: hidden
+  opacity: 0
+  background-color: rgba(#000, 0.7)
+  z-index: 15
+  +transition(opacity 300ms, visibility 0s 300ms)
+
+.super-overlayed .super-overlay
+  visibility: visible
+  opacity: 1
+  +transition-delay(0s)

@@ -15,9 +15,9 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_devise_permitted_parameters
-      devise_parameter_sanitizer.for(:sign_up).push(:email, :name, :username, :last_name, :credit_card, :cvv)
-      devise_parameter_sanitizer.for(:sign_in).push(:email, :name, :username, :last_name, :credit_card, :cvv)
-      devise_parameter_sanitizer.for(:account_update).push(:email, :name, :last_name, :credit_card, :cvv)
+    devise_parameter_sanitizer.for(:sign_up).push(:email, :name, :username, :last_name, :credit_card, :cvv)
+    devise_parameter_sanitizer.for(:sign_in).push(:email, :name, :username, :last_name, :credit_card, :cvv)
+    devise_parameter_sanitizer.for(:account_update).push(:email, :name, :last_name, :credit_card, :cvv)
   end
 
   
