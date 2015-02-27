@@ -187,6 +187,13 @@ javascript:
         $scope.add_to_cart = function (ic_id){
           $.post("/add", {id: ic_id}, function () {
             $scope.get_cart();
+          }).done(function (data){
+            console.log(JSON.parse(data));
+            var daten = JSON.parse(data);
+            console.log(daten.type);
+            if (daten.type == "error" ){
+              alert( daten.description);
+            }
           });
           //setTimeout(function(){ $scope.get_cart(); }, 500);
         }

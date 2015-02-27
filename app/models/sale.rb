@@ -25,6 +25,7 @@ class Sale < ActiveRecord::Base
   end
     
   def add_to_cart icecream, current_user
+    
     new_sale = false
     # Create or get User's last sale
     if self.id.nil? || self.state
@@ -37,10 +38,14 @@ class Sale < ActiveRecord::Base
       # If it's not a new sale means that it could has SaleDetails
     if !new_sale
       sale_detail = self.sale_details.find_or_create_by(icecream_id: icecream.id)
-      sale_detail.quantity = (sale_detail.quantity == 0 ? 1 : sale_detail.quantity.to_i + 1)
-      sale_detail.price = sale_detail.icecream.price
-      sale_detail.subtotal = sale_detail.quantity * sale_detail.price
-      self.set_total
+      if sale_detail.quantity != 10
+        sale_detail.quantity = (sale_detail.quantity == 0 ? 1 : sale_detail.quantity.to_i + 1)
+        sale_detail.price = sale_detail.icecream.price
+        sale_detail.subtotal = sale_detail.quantity * sale_detail.price
+        self.set_total
+      else
+        state = {type: :error, :description => "No puedes tener mas de 10 helados del mismo tipo"}.to_json
+      end
     else
       sale_detail = SaleDetail.new
       sale_detail.icecream = icecream
@@ -50,11 +55,16 @@ class Sale < ActiveRecord::Base
       sale_detail.subtotal = sale_detail.price
       current_sale.set_total
     end
-    if sale_detail.save
-      state = sale_detail.to_json
-    else
-      state = {type: :error, :description => ":("}.to_json
+    puts state
+    if state.nil?
+      if sale_detail.save
+        state = sale_detail.to_json
+      else
+        state = {type: :error, :description => ":("}.to_json
+      end
     end
+    icecream.stock = icecream.stock - 1
+    icecream.save
     return state
   end
     

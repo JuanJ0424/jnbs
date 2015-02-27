@@ -17,9 +17,15 @@ class SaleDetail < ActiveRecord::Base
     sale_detail = current_sale.sale_details.find_by_icecream_id(icecream_id)
     if !sale_detail.nil?
         if sale_detail.quantity == 1
-            sale_detail.destroy
+          icecream = sale_detail.icecream
+          icecream.stock = icecream.stock + 1
+          icecream.save
+          sale_detail.destroy
         else
             sale_detail.quantity -= 1
+            icecream = sale_detail.icecream
+            icecream.stock = icecream.stock + 1
+            icecream.save
             sale_detail.subtotal = sale_detail.price * sale_detail.quantity
             if sale_detail.save
                 message[:state] = 200 

@@ -8,7 +8,7 @@ class ShoppingCartController < ApplicationController
         if icecream.stock >= 1
             render json: current_sale.add_to_cart(icecream, current_user).to_json
         else
-            redirect_to root_path # No icecreams to add
+            render json: {type: "Error", description: "No hay más producto"}
         end
     end
     
