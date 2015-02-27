@@ -68,13 +68,15 @@ div(ng-controller="shopping_cart" ng-init="init()")
       = link_to 'New Icecream', new_icecream_path, class: 'button round inline-block'
   ul.products-container.js-packery data-packery-options='{ "itemSelector": ".product-card-container" }'
     - @icecreams.each do |ic|
-      li.product-card-container
+      li.product-card-container(ng-hide="#{ic.stock} == 0")
         article.product-card.radius
           .image = image_tag ic.photo.url(:full), class: 'draggable-icecream', data: { id: "#{ic.id}" }
           .caption
             strong.title = ic.flavor
             .description = ic.description
           .footer
+            - if current_user.admin?
+              span = link_to "", ic, data: {confirm: '¿Estás seguro? :c'}, :method => :delete, class: 'fa fa-times button round tiny-padded separate-next'
             span.price.helvetica = "$#{ic.price}"
             a.button.round.little.right(ng-click="add_to_cart(#{ic.id})")
               i.fa.fa-cart-plus

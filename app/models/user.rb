@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
 
   def get_user_sales
     sales = []
-    rel_sales = self.sales
+    rel_sales = self.sales.includes(:sale_details)
     rel_sales.each do |rs|
       sales.push rs
     end

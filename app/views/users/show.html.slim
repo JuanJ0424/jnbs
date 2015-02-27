@@ -1,12 +1,8 @@
 .wrapper 
   h1 Tus compras
-  table.nice-table
-    thead
-      tr
-        th Fecha
-        th Total
-    tbody
-      - @user.get_user_sales.each do |s|
-        tr
-          td = s.created_at
-          td = s.total
+  - @user.get_user_sales.each do |s|
+    .buy-detail-container
+      h4 = "Fecha: #{s.created_at}, Total pagado: $#{s.total}"
+      ul
+        - s.sale_details.each do |sd|
+          li = "#{sd.icecream.flavor} (#{sd.quantity}), subtotal: #{sd.subtotal}"
