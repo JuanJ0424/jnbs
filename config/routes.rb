@@ -1,4 +1,4 @@
-	Rails.application.routes.draw do
+  Rails.application.routes.draw do
   get 'errors/not_found'
 
   resources :sale_details
@@ -16,6 +16,7 @@
 
   get '/buy_from_us' => "icecreams#index", as: :user_root
   
+  get '/messages' => "users#messages"
   get '/api/public/u/:id' => 'users#fetch_data'
         
   mount Upmin::Engine => '/admin'
