@@ -38,7 +38,7 @@ Rails.application.configure do
   }
   # ActionMailer Config
   # config.action_mailer.default_url_options = { :host => 'http://192.168.1.117:3000' }
-  config.action_mailer.default_url_options = { :host => 'http://localhost:3000' }
+  config.action_mailer.default_url_options = { :host => 'http://jnbs-199953.usw1-2.nitrousbox.com' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.raise_delivery_errors = true
   # Send email in development mode?

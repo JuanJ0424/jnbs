@@ -4,7 +4,7 @@ class Icecream < ActiveRecord::Base
 
 	has_attached_file :photo, styles: {full: "374×479", medium: "187x239"}
 
-	validates_attachment :photo, presence: true
+	#validates_attachment :photo, presence: true
 
 	validates_attachment_content_type :photo, content_type: ["image/jpeg", "image/gif", "image/png"]
 
