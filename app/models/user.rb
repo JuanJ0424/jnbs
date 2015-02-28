@@ -20,18 +20,18 @@ class User < ActiveRecord::Base
 
   has_many :sales, dependent: :nullify
 
-  validates :credit_card, allow_blank: true, format: {with: /\A(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})\z/}
-  validates :cvv, allow_blank: true, format: {with: /\A([0-9]){3,4}\z/}
+  validates :credit_card, allow_blank: true, format: {with: /\A(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})\z/, message: "no válida"}
+  validates :cvv, allow_blank: true, format: {with: /\A([0-9]){3,4}\z/, message: "sólo puede tener números"}, length: {in: 3..4, too_short: "debe tener mínimo 3 números", too_long: "debe tener máximo 4 números"}
 
   # Not necesary, because email regexp is set in config/initializers/devise.rb
   #validates :email, format: {with: /\A[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\z/}, uniqueness: true
 
-  validates :name, presence: true, format: {with: /\A[A-ZÁÉÍÓÚÑ\s]{1}[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,49}\z/}
-  validates :last_name, presence: true, format: {with: /\A[A-ZÁÉÍÓÚÑ\s]{1}[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,49}\z/}
+  validates :name, presence: true, format: {with: /\A[A-ZÁÉÍÓÚÑ\s]{1}[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,49}\z/, message: "sólo debe tener letras y empezar con mayúscula"}
+  validates :last_name, presence: true, format: {with: /\A[A-ZÁÉÍÓÚÑ\s]{1}[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,49}\z/, message: "sólo debe tener letras y empezar con mayúscula"}
 
   validates :username, presence: true, uniqueness: {case_sensitive: false},
             length: { in: 4..20, too_short: "Tiene que tener al menos 4 caracteres", too_long: "Debe tener máximo 20 caracteres" },
-            format: { with: /([A-Za-z0-9\-\_\.]+)/, message: "Username sólo puede contener letras, números, guiones y puntos" }
+            format: { with: /\A([A-Za-z0-9\-\_\.\z]+)/, message: "sólo puede contener letras, números, guiones y puntos" }
 
   def has_credit_card?
     if self.credit_card == "" || self.cvv == "" then false else true end

@@ -10,18 +10,37 @@ es:
     last_name: Apellido(s)
     email: Email
     username: Username
+    password: Contraseña
+    password_confirmation: Confirmación de contraseña
+    credit_card: Tarjeta de crédito
    icecream:
     flavor: Sabor
     description: Descripción
     price: Precio
     photo: Foto
     stock: Stock
+    photo_content_type: Contenido del archivo de foto
+    photo_file_name: Nombre del archivo de la foto
    sale:
     total: Total
    sale_detail:
     quantity: Cantidad
     price: Precio
     subtotal: subtotal
+  errors:
+   models:
+    user:
+     attributes:
+      password_confirmation:
+       confirmation: no coincide
+      password:
+       too_short: debe tener al menos 8 caracteres
+    icecream:
+     attributes:
+      photo_content_type:
+       invalid: debe ser una imagen
+      photo_file_name:
+       invalid: no corresponde al de una imagen
  errors:
   messages:
    blank: no puede estar en blanco
